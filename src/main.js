@@ -54,8 +54,8 @@ const filmClickHandler = function (evt) {
 
     const filmDetailsInner = document.querySelector('.film-details__inner');
 
-    render(filmDetailsInner, createDetailsTemplate(), 'beforeend');
-    render(filmDetailsInner, createCommentsTemplate(), 'beforeend');
+    render(filmDetailsInner, createDetailsTemplate(films[0]), 'beforeend');
+    render(filmDetailsInner, createCommentsTemplate(films[0]), 'beforeend');
   }
 
   const filmDetails = siteBodyElement.querySelector('.film-details');

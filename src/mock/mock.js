@@ -1,6 +1,9 @@
 import dayjs from 'dayjs';
 import dayjsRandom from 'dayjs-random';
 
+const space = ' ';
+const comma = ', ';
+
 dayjs.extend(dayjsRandom);
 
 const getRandomInteger = (a = 0, b = 1) => {
@@ -15,14 +18,15 @@ const getRandomFloat = (min, max, point) => {
     const rand = min + Math.random() * (max - min);
     return rand.toFixed(point);
   }
+
   return -1;
 };
 
-const getUniqIndexes = (randomIndexes) => {
+const getUniqIndexes = (randomIndexes, separator) => {
   const mySet = new Set(randomIndexes);
   const uniqArray = Array.from(mySet);
 
-  return uniqArray.join(', ');
+  return uniqArray.join(separator);
 };
 
 const fancyTimeFormat = (minutes) => {
@@ -35,6 +39,7 @@ const fancyTimeFormat = (minutes) => {
   } else {
     duration += `${mins}m `;
   }
+
   return duration;
 };
 
@@ -66,7 +71,8 @@ const getRandomText = () => {
   ];
 
   const comment = new Array(getRandomInteger(1, 5)).fill().map(() => text[getRandomInteger(0, text.length - 1)]);
-  return getUniqIndexes(comment);
+
+  return getUniqIndexes(comment, comma);
 };
 
 export const generateComment = () => ({
@@ -146,7 +152,8 @@ const generateWriters = () => {
   ];
 
   const writers = new Array(getRandomInteger(1, 3)).fill().map(() => names[getRandomInteger(0, names.length - 1)]);
-  return getUniqIndexes(writers);
+
+  return getUniqIndexes(writers, comma);
 };
 
 const generateActors = () => {
@@ -159,7 +166,8 @@ const generateActors = () => {
   ];
 
   const actors = new Array(getRandomInteger(1, 4)).fill().map(() => names[getRandomInteger(0, names.length - 1)]);
-  return getUniqIndexes(actors);
+
+  return getUniqIndexes(actors, comma);
 };
 
 const generateCountry = () => {
@@ -185,7 +193,8 @@ const generateGenres = () => {
   ];
 
   const genres = new Array(getRandomInteger(1, 2)).fill().map(() => names[getRandomInteger(0, names.length - 1)]);
-  return genres.join(' ');
+
+  return getUniqIndexes(genres, space);
 };
 
 const generateDescription = () => {
@@ -204,7 +213,8 @@ const generateDescription = () => {
   ];
 
   const description = new Array(getRandomInteger(1, 5)).fill().map(() => text[getRandomInteger(0, text.length - 1)]);
-  return description.join(' ');
+
+  return getUniqIndexes(description, space);
 };
 
 export const generateFilm = () => ({
