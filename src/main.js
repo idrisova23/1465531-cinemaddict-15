@@ -40,7 +40,7 @@ const footerStatistics = document.querySelector('.footer__statistics');
 render(footerStatistics, createFooterStatsTemplate(), 'beforeend');
 
 const filmClickHandler = function (evt) {
-  if (evt.target.nodeName === 'IMG') {
+  if (evt.target.matches('.film-card__poster')) {
     render(siteBodyElement, createPopupTemplate(), 'beforeend');
 
     const filmDetailsInner = document.querySelector('.film-details__inner');
