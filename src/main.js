@@ -40,7 +40,9 @@ const footerStatistics = document.querySelector('.footer__statistics');
 render(footerStatistics, createFooterStatsTemplate(), 'beforeend');
 
 const filmClickHandler = function (evt) {
-  if (evt.target.matches('.film-card__poster')) {
+  if (evt.target.matches('.film-card__poster')
+      || evt.target.matches('.film-card__title')
+      || evt.target.matches('.film-card__comments')) {
     render(siteBodyElement, createPopupTemplate(), 'beforeend');
     siteBodyElement.style.overflow = 'hidden';
 
