@@ -3,7 +3,7 @@ import {createNavigationTemplate} from './view/navigation.js';
 import {createSortTemplate} from './view/sort.js';
 import {createListTemplate} from './view/list.js';
 // import {createStatsTemplate} from './view/stats.js';
-import {createCardTemplate} from './view/card.js';
+import {createFilmTemplate} from './view/film.js';
 import {createShowMoreTemplate} from './view/show-more.js';
 import {createFooterStatsTemplate} from './view/footer-stats.js';
 import {createPopupTemplate} from './view/popup.js';
@@ -30,7 +30,7 @@ const filmsList = document.querySelector('.films-list');
 const filmsListContainer = filmsList.querySelector('.films-list__container');
 
 for (let i = 0; i < FILM_COUNT; i++) {
-  render(filmsListContainer, createCardTemplate(), 'beforeend');
+  render(filmsListContainer, createFilmTemplate(), 'beforeend');
 }
 
 render(filmsList, createShowMoreTemplate(), 'beforeend');
@@ -42,6 +42,7 @@ render(footerStatistics, createFooterStatsTemplate(), 'beforeend');
 const filmClickHandler = function (evt) {
   if (evt.target.matches('.film-card__poster')) {
     render(siteBodyElement, createPopupTemplate(), 'beforeend');
+    siteBodyElement.style.overflow = 'hidden';
 
     const filmDetailsInner = document.querySelector('.film-details__inner');
 
@@ -54,6 +55,7 @@ const filmClickHandler = function (evt) {
 
   const closePopup = () => {
     filmDetails.remove();
+    siteBodyElement.style.overflow = 'visible';
     closeButton.removeEventListener('click', closePopup);
   };
 
