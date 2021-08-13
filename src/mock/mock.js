@@ -104,7 +104,7 @@ const generatePoster = () => {
   const posters = [
     './images/posters/made-for-each-other.png',
     './images/posters/popeye-meets-sinbad.png',
-    './images/posters/sagebrush-trail.jpg',
+    './images/posters/santa-claus-conquers-the-martians.jpg',
     './images/posters/the-dance-of-life.jpg',
     './images/posters/the-great-flamarion.jpg',
   ];
@@ -216,17 +216,15 @@ export const generateFilm = () => ({
   director: generateDirector(),
   writers: generateWriters(),
   actors: generateActors(),
-  date: dayjs.between('1991-06-10', '2021-03-02').format('DD MMMM YYYY'),
+  date: dayjs.between('1991-06-10', '2021-03-02'),
   releaseCountry: generateCountry(),
   runtime: fancyTimeFormat(getRandomInteger(70, 175)),
   genres: generateGenres(),
   description: generateDescription(),
   comments: new Array(getRandomInteger(0, 5)).fill().map(() => generateComment()),
-  userDetails: {
-    isWatchlist: Boolean(getRandomInteger(0, 1)),
-    isWatched: Boolean(getRandomInteger(0, 1)),
-    isFavorite: Boolean(getRandomInteger(0, 1)),
-  },
+  isWatchlist: Boolean(getRandomInteger(0, 1)),
+  isWatched: Boolean(getRandomInteger(0, 1)),
+  isFavorite: Boolean(getRandomInteger(0, 1)),
 });
 
 export const generateNavigation = () => ({

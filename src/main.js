@@ -9,8 +9,14 @@ import {createFooterStatsTemplate} from './view/footer-stats.js';
 import {createPopupTemplate} from './view/popup.js';
 import {createDetailsTemplate} from './view/details.js';
 import {createCommentsTemplate} from './view/comments.js';
+import {generateFilm, generateNavigation, generateProfileRating, generateFooterStats} from './mock/mock.js';
 
-const FILM_COUNT = 5;
+const FILM_COUNT = 14;
+
+const films = new Array(FILM_COUNT).fill().map(generateFilm);
+const navigation = generateNavigation();
+const rating = generateProfileRating();
+const statistics = generateFooterStats();
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -20,8 +26,8 @@ const siteBodyElement = document.querySelector('body');
 const siteHeaderElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
 
-render(siteHeaderElement, createProfileTemplate(), 'beforeend');
-render(siteMainElement, createNavigationTemplate(), 'beforeend');
+render(siteHeaderElement, createProfileTemplate(rating), 'beforeend');
+render(siteMainElement, createNavigationTemplate(navigation), 'beforeend');
 render(siteMainElement, createSortTemplate(), 'beforeend');
 render(siteMainElement, createListTemplate(), 'beforeend');
 // render(siteMainElement, createStatsTemplate(), 'beforeend');
@@ -30,14 +36,14 @@ const filmsList = document.querySelector('.films-list');
 const filmsListContainer = filmsList.querySelector('.films-list__container');
 
 for (let i = 0; i < FILM_COUNT; i++) {
-  render(filmsListContainer, createFilmTemplate(), 'beforeend');
+  render(filmsListContainer, createFilmTemplate(films[i]), 'beforeend');
 }
 
 render(filmsList, createShowMoreTemplate(), 'beforeend');
 
 const footerStatistics = document.querySelector('.footer__statistics');
 
-render(footerStatistics, createFooterStatsTemplate(), 'beforeend');
+render(footerStatistics, createFooterStatsTemplate(statistics), 'beforeend');
 
 const filmClickHandler = function (evt) {
   if (evt.target.matches('.film-card__poster')
