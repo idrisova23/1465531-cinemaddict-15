@@ -240,10 +240,10 @@ export const generateFilm = () => ({
 });
 
 const filmToFilterMap = {
-  All: (films) => films.length,
-  Watchlist: (films) => films.filter((film) => film.isWatchlist).length,
-  History: (films) => films.filter((film) => film.isWatched).length,
-  Favorites: (films) => films.filter((film) => film.isFavorite).length,
+  'All movies': (films) => films.length,
+  'Watchlist': (films) => films.filter((film) => film.isWatchlist).length,
+  'History': (films) => films.filter((film) => film.isWatched).length,
+  'Favorites': (films) => films.filter((film) => film.isFavorite).length,
 };
 
 export const generateFilter = (films) => Object.entries(filmToFilterMap).map(
