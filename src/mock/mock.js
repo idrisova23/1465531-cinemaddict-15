@@ -1,6 +1,8 @@
 import dayjs from 'dayjs';
 import dayjsRandom from 'dayjs-random';
 
+export const FILM_COUNT = 14;
+
 const space = ' ';
 const comma = ', ';
 
@@ -237,16 +239,24 @@ export const generateFilm = () => ({
   isFavorite: Boolean(getRandomInteger(0, 1)),
 });
 
-export const generateNavigation = () => ({
-  watchlist: getRandomInteger(1, 18),
-  history: getRandomInteger(1, 5),
-  favorites: getRandomInteger(1, 20),
-});
+const filmToFilterMap = {
+  All: (films) => films.length,
+  Watchlist: (films) => films.filter((film) => film.isWatchlist).length,
+  History: (films) => films.filter((film) => film.isWatched).length,
+  Favorites: (films) => films.filter((film) => film.isFavorite).length,
+};
+
+export const generateFilter = (films) => Object.entries(filmToFilterMap).map(
+  ([filterName, countFilms]) => ({
+    name: filterName,
+    count: countFilms(films),
+  }),
+);
 
 export const generateProfileRating = () => ({
   rank: 'Fan',
 });
 
 export const generateFooterStats = () => ({
-  count: getRandomInteger(20, 40),
+  count: FILM_COUNT,
 });

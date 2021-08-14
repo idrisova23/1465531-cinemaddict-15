@@ -1,5 +1,5 @@
 import {createProfileTemplate} from './view/profile.js';
-import {createNavigationTemplate} from './view/navigation.js';
+import {createFilterTemplate} from './view/filter.js';
 import {createSortTemplate} from './view/sort.js';
 import {createListTemplate} from './view/list.js';
 // import {createStatsTemplate} from './view/stats.js';
@@ -9,12 +9,10 @@ import {createFooterStatsTemplate} from './view/footer-stats.js';
 import {createPopupTemplate} from './view/popup.js';
 import {createDetailsTemplate} from './view/details.js';
 import {createCommentsTemplate} from './view/comments.js';
-import {generateFilm, generateNavigation, generateProfileRating, generateFooterStats} from './mock/mock.js';
-
-const FILM_COUNT = 14;
+import {FILM_COUNT, generateFilm, generateFilter, generateProfileRating, generateFooterStats} from './mock/mock.js';
 
 const films = new Array(FILM_COUNT).fill().map(generateFilm);
-const navigation = generateNavigation();
+const filters = generateFilter(films);
 const rating = generateProfileRating();
 const statistics = generateFooterStats();
 
@@ -27,7 +25,7 @@ const siteHeaderElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
 
 render(siteHeaderElement, createProfileTemplate(rating), 'beforeend');
-render(siteMainElement, createNavigationTemplate(navigation), 'beforeend');
+render(siteMainElement, createFilterTemplate(filters), 'beforeend');
 render(siteMainElement, createSortTemplate(), 'beforeend');
 render(siteMainElement, createListTemplate(), 'beforeend');
 // render(siteMainElement, createStatsTemplate(), 'beforeend');
