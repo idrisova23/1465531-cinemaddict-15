@@ -9,14 +9,13 @@ import {createFooterStatsTemplate} from './view/footer-stats.js';
 import {createPopupTemplate} from './view/popup.js';
 import {createDetailsTemplate} from './view/details.js';
 import {createCommentsTemplate} from './view/comments.js';
-import {generateFilm, generateFilter, generateProfileRating, generateFooterStats} from './mock/mock.js';
+import {generateFilm, generateFilter, generateFooterStats} from './mock/mock.js';
 
 export const FILM_COUNT = 18;
 const FILM_COUNT_PER_STEP = 5;
 
 const films = new Array(FILM_COUNT).fill().map(generateFilm);
 const filters = generateFilter(films);
-const rating = generateProfileRating();
 const statistics = generateFooterStats();
 
 const render = (container, template, place) => {
@@ -27,7 +26,7 @@ const siteBodyElement = document.querySelector('body');
 const siteHeaderElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
 
-render(siteHeaderElement, createProfileTemplate(rating), 'beforeend');
+render(siteHeaderElement, createProfileTemplate(films), 'beforeend');
 render(siteMainElement, createFilterTemplate(filters), 'beforeend');
 render(siteMainElement, createSortTemplate(), 'beforeend');
 render(siteMainElement, createListTemplate(), 'beforeend');

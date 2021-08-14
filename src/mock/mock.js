@@ -252,10 +252,6 @@ export const generateFilter = (films) => Object.entries(filmToFilterMap).map(
   }),
 );
 
-export const generateProfileRating = () => ({
-  rank: 'Fan',
-});
-
 export const generateFooterStats = () => ({
   count: FILM_COUNT,
 });
