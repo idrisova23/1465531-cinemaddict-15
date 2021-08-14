@@ -12,7 +12,7 @@ export const createFilmTemplate = (film) => {
       <span class="film-card__genre">${genres.split(' ')[0]}</span>
     </p>
     <img src=${poster} alt="" class="film-card__poster">
-    <p class="film-card__description">${description.slice(0, SYMBOL_COUNT)}...</p>
+    <p class="film-card__description">${description.length > SYMBOL_COUNT ? `${description.slice(0, SYMBOL_COUNT)  }...` : description}</p>
     <a class="film-card__comments">${comments.length} comments</a>
     <div class="film-card__controls">
       <button class="film-card__controls-item film-card__controls-item--add-to-watchlist ${isWatchlist && 'film-card__controls-item--active'}" type="button">Add to watchlist</button>
