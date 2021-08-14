@@ -9,6 +9,7 @@ import {createFooterStatsTemplate} from './view/footer-stats.js';
 import {createPopupTemplate} from './view/popup.js';
 import {createDetailsTemplate} from './view/details.js';
 import {createCommentsTemplate} from './view/comments.js';
+import {createNewCommentTemplate} from './view/new-comment.js';
 import {generateFilm, generateFilter, generateFooterStats} from './mock/mock.js';
 
 export const FILM_COUNT = 18;
@@ -76,6 +77,10 @@ const filmClickHandler = function (evt) {
 
     render(filmDetailsInner, createDetailsTemplate(films[0]), 'beforeend');
     render(filmDetailsInner, createCommentsTemplate(films[0]), 'beforeend');
+
+    const newCommentWrap = document.querySelector('.film-details__comments-wrap');
+
+    render(newCommentWrap, createNewCommentTemplate(films[0]), 'beforeend');
   }
 
   const filmDetails = siteBodyElement.querySelector('.film-details');
