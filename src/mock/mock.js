@@ -1,7 +1,6 @@
 import dayjs from 'dayjs';
 import dayjsRandom from 'dayjs-random';
-
-export const FILM_COUNT = 14;
+import {FILM_COUNT} from '../main';
 
 const space = ' ';
 const comma = ', ';

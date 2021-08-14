@@ -4,12 +4,15 @@ import {createSortTemplate} from './view/sort.js';
 import {createListTemplate} from './view/list.js';
 // import {createStatsTemplate} from './view/stats.js';
 import {createFilmTemplate} from './view/film.js';
-import {createShowMoreTemplate} from './view/show-more.js';
+import {createShowMoreButtonTemplate} from './view/show-more-button.js';
 import {createFooterStatsTemplate} from './view/footer-stats.js';
 import {createPopupTemplate} from './view/popup.js';
 import {createDetailsTemplate} from './view/details.js';
 import {createCommentsTemplate} from './view/comments.js';
-import {FILM_COUNT, generateFilm, generateFilter, generateProfileRating, generateFooterStats} from './mock/mock.js';
+import {generateFilm, generateFilter, generateProfileRating, generateFooterStats} from './mock/mock.js';
+
+export const FILM_COUNT = 18;
+const FILM_COUNT_PER_STEP = 5;
 
 const films = new Array(FILM_COUNT).fill().map(generateFilm);
 const filters = generateFilter(films);
@@ -33,11 +36,31 @@ render(siteMainElement, createListTemplate(), 'beforeend');
 const filmsList = document.querySelector('.films-list');
 const filmsListContainer = filmsList.querySelector('.films-list__container');
 
-for (let i = 0; i < FILM_COUNT; i++) {
+for (let i = 0; i < Math.min(films.length, FILM_COUNT_PER_STEP); i++) {
   render(filmsListContainer, createFilmTemplate(films[i]), 'beforeend');
 }
 
-render(filmsList, createShowMoreTemplate(), 'beforeend');
+if (films.length > FILM_COUNT_PER_STEP) {
+  let renderedFilmCount = FILM_COUNT_PER_STEP;
+
+  render(filmsList, createShowMoreButtonTemplate(), 'beforeend');
+
+  const showMoreButton = document.querySelector('.films-list__show-more');
+
+  showMoreButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
+
+    films
+      .slice(renderedFilmCount, renderedFilmCount + FILM_COUNT_PER_STEP)
+      .forEach((film) => render(filmsListContainer, createFilmTemplate(film), 'beforeend'));
+
+    renderedFilmCount += FILM_COUNT_PER_STEP;
+
+    if (renderedFilmCount >= films.length) {
+      showMoreButton.remove();
+    }
+  });
+}
 
 const footerStatistics = document.querySelector('.footer__statistics');
 
