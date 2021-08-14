@@ -70,6 +70,12 @@ const filmClickHandler = function (evt) {
   if (evt.target.matches('.film-card__poster')
       || evt.target.matches('.film-card__title')
       || evt.target.matches('.film-card__comments')) {
+
+    if (siteBodyElement.querySelector('.film-details') !== null) {
+      siteBodyElement.querySelector('.film-details').remove();
+      siteBodyElement.style.overflow = 'visible';
+    }
+
     render(siteBodyElement, createPopupTemplate(), 'beforeend');
     siteBodyElement.style.overflow = 'hidden';
 
@@ -86,13 +92,26 @@ const filmClickHandler = function (evt) {
   const filmDetails = siteBodyElement.querySelector('.film-details');
   const closeButton = filmDetails.querySelector('.film-details__close-btn');
 
-  const closePopup = () => {
-    filmDetails.remove();
-    siteBodyElement.style.overflow = 'visible';
-    closeButton.removeEventListener('click', closePopup);
+  const handleKeydown = (event) => {
+    if (event.key === 'Escape') {
+      evt.preventDefault();
+
+      filmDetails.remove();
+      siteBodyElement.style.overflow = 'visible';
+      document.removeEventListener('keydown', handleKeydown);
+    }
   };
 
-  closeButton.addEventListener('click', closePopup);
+  const handleCloseButtonClick = (event) => {
+    event.preventDefault();
+
+    filmDetails.remove();
+    siteBodyElement.style.overflow = 'visible';
+    document.removeEventListener('keydown', handleKeydown);
+  };
+
+  document.addEventListener('keydown', handleKeydown);
+  closeButton.addEventListener('click', handleCloseButtonClick);
 };
 
 filmsListContainer.addEventListener('click', filmClickHandler);
