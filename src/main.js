@@ -15,7 +15,7 @@ import {generateFilm, generateFilter, generateFooterStats} from './mock/mock.js'
 export const FILM_COUNT = 18;
 const FILM_COUNT_PER_STEP = 5;
 
-const films = new Array(FILM_COUNT).fill().map(generateFilm);
+const films = new Array(FILM_COUNT).fill(null).map(generateFilm);
 const filters = generateFilter(films);
 const statistics = generateFooterStats();
 
