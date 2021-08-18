@@ -1,7 +1,7 @@
 # Проект «Киноман»
 
 * Студент: [Юлия Власова](https://up.htmlacademy.ru/ecmascript/15/user/1465531).
-* Наставник: `Неизвестно`.
+* Наставник: [Ирина Фролова](https://up.htmlacademy.ru/htmlcss/29/user/1043867).
 
 ---
 
