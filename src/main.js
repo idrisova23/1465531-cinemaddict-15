@@ -1,6 +1,6 @@
 import {createProfileTemplate} from './view/profile.js';
-import {createFilterTemplate} from './view/filter.js';
-import {createSortTemplate} from './view/sort.js';
+import {FilterMenuView} from './view/filter-menu.js';
+import {SortView} from './view/sort.js';
 import {createListTemplate} from './view/list.js';
 // import {createStatsTemplate} from './view/stats.js';
 import {createFilmTemplate} from './view/film.js';
@@ -11,6 +11,7 @@ import {createDetailsTemplate} from './view/details.js';
 import {createCommentsTemplate} from './view/comments.js';
 import {createNewCommentTemplate} from './view/new-comment.js';
 import {generateFilm, generateFilter, generateFooterStats} from './mock/mock.js';
+import {renderTemplate, renderElement, RenderPosition} from './utils.js';
 
 export const FILM_COUNT = 18;
 const FILM_COUNT_PER_STEP = 5;
@@ -19,31 +20,27 @@ const films = new Array(FILM_COUNT).fill(null).map(generateFilm);
 const filters = generateFilter(films);
 const statistics = generateFooterStats();
 
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
-
 const siteBodyElement = document.querySelector('body');
 const siteHeaderElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
 
-render(siteHeaderElement, createProfileTemplate(films), 'beforeend');
-render(siteMainElement, createFilterTemplate(filters), 'beforeend');
-render(siteMainElement, createSortTemplate(), 'beforeend');
-render(siteMainElement, createListTemplate(), 'beforeend');
-// render(siteMainElement, createStatsTemplate(), 'beforeend');
+renderTemplate(siteHeaderElement, createProfileTemplate(films), 'beforeend');
+renderElement(siteMainElement, new FilterMenuView(filters).getElement(), RenderPosition.BEFOREEND);
+renderElement(siteMainElement, new SortView().getElement(), RenderPosition.BEFOREEND);
+renderTemplate(siteMainElement, createListTemplate(), 'beforeend');
+// renderTemplate(siteMainElement, createStatsTemplate(), 'beforeend');
 
 const filmsList = document.querySelector('.films-list');
 const filmsListContainer = filmsList.querySelector('.films-list__container');
 
 for (let i = 0; i < Math.min(films.length, FILM_COUNT_PER_STEP); i++) {
-  render(filmsListContainer, createFilmTemplate(films[i]), 'beforeend');
+  renderTemplate(filmsListContainer, createFilmTemplate(films[i]), 'beforeend');
 }
 
 if (films.length > FILM_COUNT_PER_STEP) {
   let renderedFilmCount = FILM_COUNT_PER_STEP;
 
-  render(filmsList, createShowMoreButtonTemplate(), 'beforeend');
+  renderTemplate(filmsList, createShowMoreButtonTemplate(), 'beforeend');
 
   const showMoreButton = document.querySelector('.films-list__show-more');
 
@@ -52,7 +49,7 @@ if (films.length > FILM_COUNT_PER_STEP) {
 
     films
       .slice(renderedFilmCount, renderedFilmCount + FILM_COUNT_PER_STEP)
-      .forEach((film) => render(filmsListContainer, createFilmTemplate(film), 'beforeend'));
+      .forEach((film) => renderTemplate(filmsListContainer, createFilmTemplate(film), 'beforeend'));
 
     renderedFilmCount += FILM_COUNT_PER_STEP;
 
@@ -64,7 +61,7 @@ if (films.length > FILM_COUNT_PER_STEP) {
 
 const footerStatistics = document.querySelector('.footer__statistics');
 
-render(footerStatistics, createFooterStatsTemplate(statistics), 'beforeend');
+renderTemplate(footerStatistics, createFooterStatsTemplate(statistics), 'beforeend');
 
 const filmClickHandler = function (evt) {
   if (evt.target.matches('.film-card__poster')
@@ -76,17 +73,17 @@ const filmClickHandler = function (evt) {
       siteBodyElement.style.overflow = 'visible';
     }
 
-    render(siteBodyElement, createPopupTemplate(), 'beforeend');
+    renderTemplate(siteBodyElement, createPopupTemplate(), 'beforeend');
     siteBodyElement.style.overflow = 'hidden';
 
     const filmDetailsInner = document.querySelector('.film-details__inner');
 
-    render(filmDetailsInner, createDetailsTemplate(films[0]), 'beforeend');
-    render(filmDetailsInner, createCommentsTemplate(films[0]), 'beforeend');
+    renderTemplate(filmDetailsInner, createDetailsTemplate(films[0]), 'beforeend');
+    renderTemplate(filmDetailsInner, createCommentsTemplate(films[0]), 'beforeend');
 
     const newCommentWrap = document.querySelector('.film-details__comments-wrap');
 
-    render(newCommentWrap, createNewCommentTemplate(films[0]), 'beforeend');
+    renderTemplate(newCommentWrap, createNewCommentTemplate(films[0]), 'beforeend');
   }
 
   const filmDetails = siteBodyElement.querySelector('.film-details');
