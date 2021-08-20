@@ -1,4 +1,6 @@
-export const createNewCommentFormTemplate = () => (
+import {createElement} from '../utils.js';
+
+const createNewCommentFormTemplate = () => (
   `<div class="film-details__new-comment">
     <div class="film-details__add-emoji-label">
       <img src="images/emoji/smile.png" width="55" height="55" alt="emoji-smile">
@@ -31,3 +33,25 @@ export const createNewCommentFormTemplate = () => (
     </div>
   </div>`
 );
+
+export default class NewCommentForm {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createNewCommentFormTemplate();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

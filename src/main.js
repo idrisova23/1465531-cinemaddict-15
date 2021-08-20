@@ -1,15 +1,15 @@
 import {createProfileTemplate} from './view/profile.js';
 import FilterMenuView from './view/filter-menu.js';
 import SortView from './view/sort.js';
-import {createFilmListTemplate} from './view/film-list.js';
+import FilmListView from './view/film-list.js';
 // import {createStatsTemplate} from './view/stats.js';
 import {createFilmTemplate} from './view/film.js';
-import {createShowMoreButtonTemplate} from './view/show-more-button.js';
+import ShowMoreButtonView from './view/show-more-button.js';
 import {createFooterStatsTemplate} from './view/footer-stats.js';
-import {createPopupTemplate} from './view/popup.js';
+import PopupView from './view/popup.js';
 import {createFilmDetailsTemplate} from './view/film-details.js';
 import {createCommentListTemplate} from './view/comment-list.js';
-import {createNewCommentFormTemplate} from './view/new-comment-form.js';
+import NewCommentFormView from './view/new-comment-form.js';
 import {generateFilm, generateFilter, generateFooterStats} from './mock/mock.js';
 import {renderTemplate, renderElement, RenderPosition} from './utils.js';
 
@@ -27,7 +27,7 @@ const siteMainElement = document.querySelector('.main');
 renderTemplate(siteHeaderElement, createProfileTemplate(films), 'beforeend');
 renderElement(siteMainElement, new FilterMenuView(filters).getElement(), RenderPosition.BEFOREEND);
 renderElement(siteMainElement, new SortView().getElement(), RenderPosition.BEFOREEND);
-renderTemplate(siteMainElement, createFilmListTemplate(), 'beforeend');
+renderElement(siteMainElement, new FilmListView().getElement(), RenderPosition.BEFOREEND);
 // renderTemplate(siteMainElement, createStatsTemplate(), 'beforeend');
 
 const filmsList = document.querySelector('.films-list');
@@ -40,7 +40,7 @@ for (let i = 0; i < Math.min(films.length, FILM_COUNT_PER_STEP); i++) {
 if (films.length > FILM_COUNT_PER_STEP) {
   let renderedFilmCount = FILM_COUNT_PER_STEP;
 
-  renderTemplate(filmsList, createShowMoreButtonTemplate(), 'beforeend');
+  renderElement(filmsList, new ShowMoreButtonView().getElement(), RenderPosition.BEFOREEND);
 
   const showMoreButton = document.querySelector('.films-list__show-more');
 
@@ -73,7 +73,7 @@ const filmClickHandler = function (evt) {
       siteBodyElement.style.overflow = 'visible';
     }
 
-    renderTemplate(siteBodyElement, createPopupTemplate(), 'beforeend');
+    renderElement(siteBodyElement, new PopupView().getElement(), RenderPosition.BEFOREEND);
     siteBodyElement.style.overflow = 'hidden';
 
     const filmDetailsInner = document.querySelector('.film-details__inner');
@@ -83,7 +83,7 @@ const filmClickHandler = function (evt) {
 
     const newCommentWrap = document.querySelector('.film-details__comments-wrap');
 
-    renderTemplate(newCommentWrap, createNewCommentFormTemplate(films[0]), 'beforeend');
+    renderElement(newCommentWrap, new NewCommentFormView().getElement(), RenderPosition.BEFOREEND);
   }
 
   const filmDetails = siteBodyElement.querySelector('.film-details');
