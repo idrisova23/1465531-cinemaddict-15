@@ -31,10 +31,15 @@ render(siteMainElement, new FilmListView().getElement(), RenderPosition.BEFOREEN
 const filmsList = document.querySelector('.films-list');
 const filmsListContainer = filmsList.querySelector('.films-list__container');
 
-// const filmComponent = new FilmView();
+const renderFilm = (filmListElement, film) => {
+  const filmComponent = new FilmView(film);
+  // const popupComponent = new PopupView(film);
+
+  render(filmListElement, filmComponent.getElement(), RenderPosition.BEFOREEND);
+};
 
 for (let i = 0; i < Math.min(films.length, FILM_COUNT_PER_STEP); i++) {
-  render(filmsListContainer, new FilmView(films[i]).getElement(), RenderPosition.BEFOREEND);
+  renderFilm(filmsListContainer, films[i]);
 }
 
 if (films.length > FILM_COUNT_PER_STEP) {
@@ -49,7 +54,7 @@ if (films.length > FILM_COUNT_PER_STEP) {
 
     films
       .slice(renderedFilmCount, renderedFilmCount + FILM_COUNT_PER_STEP)
-      .forEach((film) => render(filmsListContainer, new FilmView(film).getElement(), RenderPosition.BEFOREEND));
+      .forEach((film) => renderFilm(filmsListContainer, film));
 
     renderedFilmCount += FILM_COUNT_PER_STEP;
 
