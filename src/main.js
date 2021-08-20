@@ -10,7 +10,7 @@ import FilmDetailsView from './view/film-details.js';
 import CommentListView from './view/comment-list.js';
 import NewCommentFormView from './view/new-comment-form.js';
 import {generateFilm, generateFilter, generateFooterStats} from './mock/mock.js';
-import {renderElement, RenderPosition} from './utils.js';
+import {render, RenderPosition} from './utils.js';
 
 export const FILM_COUNT = 18;
 const FILM_COUNT_PER_STEP = 5;
@@ -23,10 +23,10 @@ const siteBodyElement = document.querySelector('body');
 const siteHeaderElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
 
-renderElement(siteHeaderElement, new ProfileView(films).getElement(), RenderPosition.BEFOREEND);
-renderElement(siteMainElement, new FilterMenuView(filters).getElement(), RenderPosition.BEFOREEND);
-renderElement(siteMainElement, new SortView().getElement(), RenderPosition.BEFOREEND);
-renderElement(siteMainElement, new FilmListView().getElement(), RenderPosition.BEFOREEND);
+render(siteHeaderElement, new ProfileView(films).getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new FilterMenuView(filters).getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new SortView().getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new FilmListView().getElement(), RenderPosition.BEFOREEND);
 
 const filmsList = document.querySelector('.films-list');
 const filmsListContainer = filmsList.querySelector('.films-list__container');
@@ -34,13 +34,13 @@ const filmsListContainer = filmsList.querySelector('.films-list__container');
 // const filmComponent = new FilmView();
 
 for (let i = 0; i < Math.min(films.length, FILM_COUNT_PER_STEP); i++) {
-  renderElement(filmsListContainer, new FilmView(films[i]).getElement(), RenderPosition.BEFOREEND);
+  render(filmsListContainer, new FilmView(films[i]).getElement(), RenderPosition.BEFOREEND);
 }
 
 if (films.length > FILM_COUNT_PER_STEP) {
   let renderedFilmCount = FILM_COUNT_PER_STEP;
 
-  renderElement(filmsList, new ShowMoreButtonView().getElement(), RenderPosition.BEFOREEND);
+  render(filmsList, new ShowMoreButtonView().getElement(), RenderPosition.BEFOREEND);
 
   const showMoreButton = document.querySelector('.films-list__show-more');
 
@@ -49,7 +49,7 @@ if (films.length > FILM_COUNT_PER_STEP) {
 
     films
       .slice(renderedFilmCount, renderedFilmCount + FILM_COUNT_PER_STEP)
-      .forEach((film) => renderElement(filmsListContainer, new FilmView(film).getElement(), RenderPosition.BEFOREEND));
+      .forEach((film) => render(filmsListContainer, new FilmView(film).getElement(), RenderPosition.BEFOREEND));
 
     renderedFilmCount += FILM_COUNT_PER_STEP;
 
@@ -61,7 +61,7 @@ if (films.length > FILM_COUNT_PER_STEP) {
 
 const footerStatistics = document.querySelector('.footer__statistics');
 
-renderElement(footerStatistics, new FooterStatsView(statistics).getElement(), RenderPosition.BEFOREEND);
+render(footerStatistics, new FooterStatsView(statistics).getElement(), RenderPosition.BEFOREEND);
 
 const filmClickHandler = function (evt) {
   if (evt.target.matches('.film-card__poster')
@@ -73,17 +73,17 @@ const filmClickHandler = function (evt) {
       siteBodyElement.style.overflow = 'visible';
     }
 
-    renderElement(siteBodyElement, new PopupView().getElement(), RenderPosition.BEFOREEND);
+    render(siteBodyElement, new PopupView().getElement(), RenderPosition.BEFOREEND);
     siteBodyElement.style.overflow = 'hidden';
 
     const filmDetailsInner = document.querySelector('.film-details__inner');
 
-    renderElement(filmDetailsInner, new FilmDetailsView(films[0]).getElement(), RenderPosition.BEFOREEND);
-    renderElement(filmDetailsInner, new CommentListView(films[0]).getElement(), RenderPosition.BEFOREEND);
+    render(filmDetailsInner, new FilmDetailsView(films[0]).getElement(), RenderPosition.BEFOREEND);
+    render(filmDetailsInner, new CommentListView(films[0]).getElement(), RenderPosition.BEFOREEND);
 
     const newCommentWrap = document.querySelector('.film-details__comments-wrap');
 
-    renderElement(newCommentWrap, new NewCommentFormView().getElement(), RenderPosition.BEFOREEND);
+    render(newCommentWrap, new NewCommentFormView().getElement(), RenderPosition.BEFOREEND);
   }
 
   const filmDetails = siteBodyElement.querySelector('.film-details');
