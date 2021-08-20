@@ -1,6 +1,6 @@
 import {createProfileTemplate} from './view/profile.js';
-import {FilterMenuView} from './view/filter-menu.js';
-import {SortView} from './view/sort.js';
+import FilterMenuView from './view/filter-menu.js';
+import SortView from './view/sort.js';
 import {createListTemplate} from './view/list.js';
 // import {createStatsTemplate} from './view/stats.js';
 import {createFilmTemplate} from './view/film.js';
