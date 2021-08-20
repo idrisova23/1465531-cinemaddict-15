@@ -1,6 +1,8 @@
+import {createElement} from '../utils.js';
+
 const SYMBOL_COUNT = 139;
 
-export const createFilmTemplate = (film) => {
+const createFilmTemplate = (film) => {
   const {title, totalRating, date, runtime, genres, poster, description, comments, isWatchlist, isWatched, isFavorite} = film;
 
   return `<article class="film-card">
@@ -21,3 +23,26 @@ export const createFilmTemplate = (film) => {
     </div>
   </article>`;
 };
+
+export default class Film {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

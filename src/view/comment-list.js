@@ -1,3 +1,5 @@
+import {createElement} from '../utils.js';
+
 const createCommentList = (comments) => {
   let commentsList = '';
 
@@ -20,7 +22,7 @@ const createCommentList = (comments) => {
   return commentsList;
 };
 
-export const createCommentListTemplate = (film) => {
+const createCommentListTemplate = (film) => {
   const {comments} = film;
   const commentsList = createCommentList(comments);
 
@@ -34,3 +36,26 @@ export const createCommentListTemplate = (film) => {
     </section>
   </div>`;
 };
+
+export default class CommentList {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createCommentListTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
