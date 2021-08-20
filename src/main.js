@@ -2,7 +2,6 @@ import {createProfileTemplate} from './view/profile.js';
 import FilterMenuView from './view/filter-menu.js';
 import SortView from './view/sort.js';
 import FilmListView from './view/film-list.js';
-// import {createStatsTemplate} from './view/stats.js';
 import {createFilmTemplate} from './view/film.js';
 import ShowMoreButtonView from './view/show-more-button.js';
 import {createFooterStatsTemplate} from './view/footer-stats.js';
@@ -28,7 +27,6 @@ renderTemplate(siteHeaderElement, createProfileTemplate(films), 'beforeend');
 renderElement(siteMainElement, new FilterMenuView(filters).getElement(), RenderPosition.BEFOREEND);
 renderElement(siteMainElement, new SortView().getElement(), RenderPosition.BEFOREEND);
 renderElement(siteMainElement, new FilmListView().getElement(), RenderPosition.BEFOREEND);
-// renderTemplate(siteMainElement, createStatsTemplate(), 'beforeend');
 
 const filmsList = document.querySelector('.films-list');
 const filmsListContainer = filmsList.querySelector('.films-list__container');
