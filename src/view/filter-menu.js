@@ -23,8 +23,8 @@ const createFilterMenuTemplate = (filterItems) => {
 
 export default class FilterMenu {
   constructor(filters) {
-    this._element = null;
     this._filters = filters;
+    this._element = null;
   }
 
   getTemplate() {
