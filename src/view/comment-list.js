@@ -1,4 +1,4 @@
-const createCommentsList = (comments) => {
+const createCommentList = (comments) => {
   let commentsList = '';
 
   for (let i = 0; i < comments.length; i++) {
@@ -20,9 +20,9 @@ const createCommentsList = (comments) => {
   return commentsList;
 };
 
-export const createCommentsTemplate = (film) => {
+export const createCommentListTemplate = (film) => {
   const {comments} = film;
-  const commentsList = createCommentsList(comments);
+  const commentsList = createCommentList(comments);
 
   return `<div class="film-details__bottom-container">
     <section class="film-details__comments-wrap">

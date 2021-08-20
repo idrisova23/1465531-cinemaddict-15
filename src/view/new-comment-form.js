@@ -1,4 +1,4 @@
-export const createNewCommentTemplate = () => (
+export const createNewCommentFormTemplate = () => (
   `<div class="film-details__new-comment">
     <div class="film-details__add-emoji-label">
       <img src="images/emoji/smile.png" width="55" height="55" alt="emoji-smile">

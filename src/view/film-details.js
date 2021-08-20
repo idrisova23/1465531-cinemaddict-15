@@ -8,7 +8,7 @@ const createGenresList = (genres) => {
   return genresList;
 };
 
-export const createDetailsTemplate = (film) => {
+export const createFilmDetailsTemplate = (film) => {
   const {poster, ageRating, title, alternativeTitle, totalRating, director, writers,
     actors, date, runtime, releaseCountry, genres, description, isWatchlist, isWatched, isFavorite} = film;
 
