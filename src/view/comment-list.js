@@ -1,4 +1,6 @@
-const createCommentsList = (comments) => {
+import {createElement} from '../utils.js';
+
+const createCommentList = (comments) => {
   let commentsList = '';
 
   for (let i = 0; i < comments.length; i++) {
@@ -20,9 +22,9 @@ const createCommentsList = (comments) => {
   return commentsList;
 };
 
-export const createCommentsTemplate = (film) => {
+const createCommentListTemplate = (film) => {
   const {comments} = film;
-  const commentsList = createCommentsList(comments);
+  const commentsList = createCommentList(comments);
 
   return `<div class="film-details__bottom-container">
     <section class="film-details__comments-wrap">
@@ -34,3 +36,26 @@ export const createCommentsTemplate = (film) => {
     </section>
   </div>`;
 };
+
+export default class CommentList {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createCommentListTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

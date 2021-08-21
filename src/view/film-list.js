@@ -1,19 +1,22 @@
 import {createElement} from '../utils.js';
 
-const createPopupTemplate = () => (
-  `<section class="film-details">
-    <form class="film-details__inner" action="" method="get">
-    </form>
+const createFilmListTemplate = () => (
+  `<section class="films">
+    <section class="films-list">
+      <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
+
+      <div class="films-list__container"></div>
+    </section>
   </section>`
 );
 
-export default class Popup {
+export default class FilmList {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createPopupTemplate();
+    return createFilmListTemplate();
   }
 
   getElement() {
