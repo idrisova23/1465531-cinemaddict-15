@@ -35,19 +35,22 @@ const filmsListContainer = filmsList.querySelector('.films-list__container');
 const renderFilm = (filmListElement, film) => {
   const filmComponent = new FilmView(film);
   const popupComponent = new PopupView(film);
-
-  const handleCloseButtonClick = (evt) => {
-    evt.preventDefault();
-
-    siteBodyElement.removeChild(popupComponent.getElement());
-    siteBodyElement.style.overflow = 'visible';
-  };
+  const filmDetailsComponent = new FilmDetailsView(film);
+  const commentListComponent = new CommentListView(film);
+  const newCommentComponent = new NewCommentFormView(film);
 
   const handleKeydown = (evt) => {
     if (evt.key === 'Escape') {
       siteBodyElement.removeChild(popupComponent.getElement());
       siteBodyElement.style.overflow = 'visible';
+      document.removeEventListener('keydown', handleKeydown);
     }
+  };
+
+  const handleCloseButtonClick = () => {
+    siteBodyElement.removeChild(popupComponent.getElement());
+    siteBodyElement.style.overflow = 'visible';
+    document.removeEventListener('keydown', handleKeydown);
   };
 
   const filmClickHandler = (evt) => {
@@ -57,13 +60,10 @@ const renderFilm = (filmListElement, film) => {
         siteBodyElement.style.overflow = 'visible';
       }
 
-      render(siteBodyElement, popupComponent.getElement(), RenderPosition.BEFOREEND);
-
-      render(popupComponent.getElement().querySelector('.film-details__inner'), new FilmDetailsView(film).getElement(), RenderPosition.BEFOREEND);
-      render(popupComponent.getElement().querySelector('.film-details__inner'), new CommentListView(film).getElement(), RenderPosition.BEFOREEND);
-
-      const newCommentWrap = document.querySelector('.film-details__comments-wrap');
-      render(newCommentWrap, new NewCommentFormView().getElement(), RenderPosition.BEFOREEND);
+      siteBodyElement.appendChild(popupComponent.getElement());
+      popupComponent.getElement().appendChild(filmDetailsComponent.getElement());
+      popupComponent.getElement().appendChild(commentListComponent.getElement());
+      commentListComponent.getElement().appendChild(newCommentComponent.getElement());
 
       siteBodyElement.style.overflow = 'hidden';
     }
