@@ -65,7 +65,7 @@ const renderFilm = (filmListElement, film) => {
       popupComponent.getElement().appendChild(commentListComponent.getElement());
       commentListComponent.getElement().appendChild(newCommentComponent.getElement());
 
-      siteBodyElement.style.overflow = 'hidden';
+      siteBodyElement.classList.add('hide-overflow');
     }
 
     popupComponent.getElement().querySelector('.film-details__close-btn').addEventListener('click', handleCloseButtonClick);
