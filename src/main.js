@@ -57,7 +57,6 @@ const renderFilm = (filmListElement, film) => {
     if (evt.target.matches('.film-card__poster') || evt.target.matches('.film-card__title') || evt.target.matches('.film-card__comments')) {
       if (siteBodyElement.querySelector('.film-details') !== null) {
         siteBodyElement.querySelector('.film-details').remove();
-        siteBodyElement.classList.add('hide-overflow');
       }
 
       siteBodyElement.appendChild(popupComponent.getElement());
