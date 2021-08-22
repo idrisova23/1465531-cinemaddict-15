@@ -42,14 +42,14 @@ const renderFilm = (filmListElement, film) => {
   const handleKeydown = (evt) => {
     if (evt.key === 'Escape') {
       siteBodyElement.removeChild(popupComponent.getElement());
-      siteBodyElement.style.overflow = 'visible';
+      siteBodyElement.classList.remove('hide-overflow');
       document.removeEventListener('keydown', handleKeydown);
     }
   };
 
   const handleCloseButtonClick = () => {
     siteBodyElement.removeChild(popupComponent.getElement());
-    siteBodyElement.style.overflow = 'visible';
+    siteBodyElement.classList.remove('hide-overflow');
     document.removeEventListener('keydown', handleKeydown);
   };
 
@@ -57,7 +57,7 @@ const renderFilm = (filmListElement, film) => {
     if (evt.target.matches('.film-card__poster') || evt.target.matches('.film-card__title') || evt.target.matches('.film-card__comments')) {
       if (siteBodyElement.querySelector('.film-details') !== null) {
         siteBodyElement.querySelector('.film-details').remove();
-        siteBodyElement.style.overflow = 'visible';
+        siteBodyElement.classList.add('hide-overflow');
       }
 
       siteBodyElement.appendChild(popupComponent.getElement());
@@ -65,7 +65,7 @@ const renderFilm = (filmListElement, film) => {
       popupComponent.getElement().appendChild(commentListComponent.getElement());
       commentListComponent.getElement().appendChild(newCommentComponent.getElement());
 
-      siteBodyElement.style.overflow = 'hidden';
+      siteBodyElement.classList.add('hide-overflow');
     }
 
     popupComponent.getElement().querySelector('.film-details__close-btn').addEventListener('click', handleCloseButtonClick);
