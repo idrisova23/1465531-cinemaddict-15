@@ -55,7 +55,7 @@ const renderFilm = (filmListElement, film) => {
     document.removeEventListener('keydown', handleKeydown);
   });
 
-  const fn = () => {
+  const showPopup = () => {
     siteBodyElement.appendChild(popupComponent.getElement());
     popupComponent.getElement().appendChild(filmDetailsComponent.getElement());
     popupComponent.getElement().appendChild(commentListComponent.getElement());
@@ -66,9 +66,7 @@ const renderFilm = (filmListElement, film) => {
     document.addEventListener('keydown', handleKeydown);
   };
 
-  filmComponent.setFilmClickHandler('.film-card__poster', fn);
-  filmComponent.setFilmClickHandler('.film-card__title', fn);
-  filmComponent.setFilmClickHandler('.film-card__comments', fn);
+  filmComponent.setFilmClickHandler(showPopup);
 
   render(filmListElement, filmComponent, RenderPosition.BEFOREEND);
 };
