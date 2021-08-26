@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import AbstractView from './abstract.js';
 
 const SYMBOL_COUNT = 139;
 
@@ -24,25 +24,25 @@ const createFilmTemplate = (film) => {
   </article>`;
 };
 
-export default class Film {
+export default class Film extends AbstractView {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
+
+    this._filmClickHandler = this._filmClickHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _filmClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.filmClick();
   }
 
-  removeElement() {
-    this._element = null;
+  setFilmClickHandler(element, callback) {
+    this._callback.filmClick = callback;
+    this.getElement().querySelector(element).addEventListener('click', this._filmClickHandler);
   }
 }

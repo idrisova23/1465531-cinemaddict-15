@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import dayjsRandom from 'dayjs-random';
 import {FILM_COUNT} from '../main';
-import {getRandomInteger, getRandomFloat, getRandomArrayItem, generateUniqArray, fancyTimeFormat} from '../utils';
+import {getRandomInteger, getRandomFloat, getRandomArrayItem, generateUniqArray, fancyTimeFormat} from '../utils/common.js';
 
 const AUTHORS = ['Nathanos Blightcaller', 'Accidental genius', 'Donna Martin', 'Coffee zombie', 'Disco potato'];
 const EMOTIONS = ['smile', 'sleeping', 'puke', 'angry'];
