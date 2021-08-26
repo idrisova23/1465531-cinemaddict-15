@@ -24,7 +24,7 @@ export default class Board {
   }
 
   _renderSort() {
-    // Метод для рендеринга сортировки
+    render(this._boardContainer, this._sortComponent, RenderPosition.BEFOREEND);
   }
 
   _renderFilm(film) {
@@ -33,11 +33,13 @@ export default class Board {
   }
 
   _renderFilmList(from, to) {
-    // Метод для рендеринга N-задач за раз
+    this._films
+      .slice(from, to)
+      .forEach((film) => this._renderFilm(film));
   }
 
   _renderNoFilm() {
-    // Метод для рендеринга заглушки
+    render(this._boardContainer, this._noFilmComponent, RenderPosition.BEFOREEND);
   }
 
   _renderShowMoreButton() {
