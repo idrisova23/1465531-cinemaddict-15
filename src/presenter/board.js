@@ -1,8 +1,11 @@
 import SortView from '../view/sort.js';
 import FilmListView from '../view/film-list.js';
 import NoFilmView from '../view/no-film.js';
+import FilmView from '../view/film.js';
 import ShowMoreButtonView from '../view/show-more-button.js';
+import {RenderPosition, render} from '../utils/render.js';
 
+const FILM_COUNT_PER_STEP = 5;
 export default class Board {
   constructor(boardContainer) {
     this._boardContainer = boardContainer;
@@ -16,24 +19,24 @@ export default class Board {
   init(films, filters) {
     this._films = films.slice();
     this._filters = filters;
-    // Метод для инициализации (начала работы) модуля,
-    // малая часть текущей функции renderBoard в main.js
+
+    this._renderBoard();
   }
 
   _renderSort() {
     // Метод для рендеринга сортировки
   }
 
-  _renderFilm() {
+  _renderFilm(film) {
     // Метод, куда уйдёт логика созданию и рендерингу компонетов компонетов задачи,
     // текущая функция renderTask в main.js
   }
 
-  _renderFilms() {
+  _renderFilmList(from, to) {
     // Метод для рендеринга N-задач за раз
   }
 
-  _renderNoFilms() {
+  _renderNoFilm() {
     // Метод для рендеринга заглушки
   }
 
@@ -43,7 +46,16 @@ export default class Board {
   }
 
   _renderBoard() {
-    // Метод для инициализации (начала работы) модуля,
-    // бОльшая часть текущей функции renderBoard в main.js
+    if (this._films.length === 0) {
+      this._renderNoFilm();
+    } else {
+      for (let i = 0; i < Math.min(this._films.length, FILM_COUNT_PER_STEP); i++) {
+        this._renderFilm(this._films[i]);
+      }
+    }
+
+    if (this._films.length > FILM_COUNT_PER_STEP) {
+      this._renderShowMoreButton();
+    }
   }
 }
