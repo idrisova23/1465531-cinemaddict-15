@@ -113,9 +113,9 @@ export default class Board {
   _renderBoard() {
     if (this._films.length === 0) {
       this._renderNoFilms();
+    } else {
+      this._renderSort();
+      this._renderFilmList();
     }
-
-    this._renderSort();
-    this._renderFilmList();
   }
 }
