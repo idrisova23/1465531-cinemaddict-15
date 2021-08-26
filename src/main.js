@@ -39,12 +39,12 @@ const renderFilm = (filmListElement, film) => {
   const commentListComponent = new CommentListView(film);
   const newCommentComponent = new NewCommentFormView(film);
 
-  const handleKeydown = (evt) => {
+  const keyDownHandler = (evt) => {
     if (evt.key === 'Escape') {
       siteBodyElement.removeChild(popupComponent.getElement());
       siteBodyElement.classList.remove('hide-overflow');
 
-      document.removeEventListener('keydown', handleKeydown);
+      document.removeEventListener('keydown', keyDownHandler);
     }
   };
 
@@ -52,7 +52,7 @@ const renderFilm = (filmListElement, film) => {
     siteBodyElement.removeChild(popupComponent.getElement());
     siteBodyElement.classList.remove('hide-overflow');
 
-    document.removeEventListener('keydown', handleKeydown);
+    document.removeEventListener('keydown', keyDownHandler);
   });
 
   const showPopup = () => {
@@ -63,7 +63,7 @@ const renderFilm = (filmListElement, film) => {
 
     siteBodyElement.classList.add('hide-overflow');
 
-    document.addEventListener('keydown', handleKeydown);
+    document.addEventListener('keydown', keyDownHandler);
   };
 
   filmComponent.setFilmClickHandler(showPopup);
