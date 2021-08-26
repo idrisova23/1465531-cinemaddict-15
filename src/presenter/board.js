@@ -72,13 +72,13 @@ export default class Board {
     render(this._filmListComponent, filmComponent, RenderPosition.BEFOREEND);
   }
 
-  _renderFilmList(from, to) {
+  _renderFilms(from, to) {
     this._films
       .slice(from, to)
       .forEach((film) => this._renderFilm(film));
   }
 
-  _renderNoFilm() {
+  _renderNoFilms() {
     render(this._boardContainer, this._noFilmComponent, RenderPosition.BEFOREEND);
   }
 
@@ -102,17 +102,20 @@ export default class Board {
     });
   }
 
-  _renderBoard() {
-    if (this._films.length === 0) {
-      this._renderNoFilm();
-    } else {
-      for (let i = 0; i < Math.min(this._films.length, FILM_COUNT_PER_STEP); i++) {
-        this._renderFilm(this._films[i]);
-      }
-    }
+  _renderFilmList() {
+    this._renderFilms(0, Math.min(this._films.length, FILM_COUNT_PER_STEP));
 
     if (this._films.length > FILM_COUNT_PER_STEP) {
       this._renderShowMoreButton();
     }
+  }
+
+  _renderBoard() {
+    if (this._films.length === 0) {
+      this._renderNoFilms();
+    }
+
+    this._renderSort();
+    this._renderFilmList();
   }
 }
