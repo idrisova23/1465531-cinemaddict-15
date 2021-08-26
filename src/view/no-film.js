@@ -1,6 +1,6 @@
 import AbstractView from './abstract.js';
 
-const createListEmptyTemplate = () => (
+const createNoFilmTemplate = () => (
   `<section class="films">
     <section class="films-list">
       <h2 class="films-list__title">There are no movies in our database</h2>
@@ -15,8 +15,8 @@ const createListEmptyTemplate = () => (
   </section>`
 );
 
-export default class ListEmpty extends AbstractView {
+export default class NoFilm extends AbstractView {
   getTemplate() {
-    return createListEmptyTemplate();
+    return createNoFilmTemplate();
   }
 }

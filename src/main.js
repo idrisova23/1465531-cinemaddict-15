@@ -2,7 +2,7 @@ import ProfileView from './view/profile.js';
 import FilterMenuView from './view/filter-menu.js';
 import SortView from './view/sort.js';
 import FilmListView from './view/film-list.js';
-import ListEmptyView from './view/list-empty.js';
+import NoFilmView from './view/no-film.js';
 import FilmView from './view/film.js';
 import ShowMoreButtonView from './view/show-more-button.js';
 import FooterStatsView from './view/footer-stats.js';
@@ -72,7 +72,7 @@ const renderFilm = (filmListElement, film) => {
 };
 
 if (films.length === 0) {
-  render(siteMainElement, new ListEmptyView(), RenderPosition.BEFOREEND);
+  render(siteMainElement, new NoFilmView(), RenderPosition.BEFOREEND);
 } else {
   for (let i = 0; i < Math.min(films.length, FILM_COUNT_PER_STEP); i++) {
     renderFilm(filmsListContainer, films[i]);
