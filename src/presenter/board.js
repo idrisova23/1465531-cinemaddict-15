@@ -3,7 +3,7 @@ import FilmListView from '../view/film-list.js';
 import NoFilmView from '../view/no-film.js';
 import FilmView from '../view/film.js';
 import ShowMoreButtonView from '../view/show-more-button.js';
-import {RenderPosition, render} from '../utils/render.js';
+import {RenderPosition, render, remove} from '../utils/render.js';
 import PopupView from '../view/popup.js';
 import FilmDetailsView from '../view/film-details.js';
 import CommentListView from '../view/comment-list.js';
@@ -83,8 +83,23 @@ export default class Board {
   }
 
   _renderShowMoreButton() {
-    // Метод, куда уйдёт логика по отрисовке кнопки допоказа задач,
-    // сейчас в main.js является частью renderBoard
+    let renderedFilmCount = FILM_COUNT_PER_STEP;
+
+    const showMoreButtonComponent = new ShowMoreButtonView();
+
+    render(this._filmListComponent, showMoreButtonComponent, RenderPosition.BEFOREEND);
+
+    showMoreButtonComponent.setClickHandler(() => {
+      this._films
+        .slice(renderedFilmCount, renderedFilmCount + FILM_COUNT_PER_STEP)
+        .forEach((film) => this._renderFilm(film));
+
+      renderedFilmCount += FILM_COUNT_PER_STEP;
+
+      if (renderedFilmCount >= this._films.length) {
+        remove(showMoreButtonComponent);
+      }
+    });
   }
 
   _renderBoard() {
