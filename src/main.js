@@ -5,7 +5,7 @@ import {generateFilm, generateFilter, generateFooterStats} from './mock/mock.js'
 import BoardPresenter from './presenter/board.js';
 import {render, RenderPosition} from './utils/render.js';
 
-export const FILM_COUNT = 23;
+export const FILM_COUNT = 18;
 
 const films = new Array(FILM_COUNT).fill(null).map(generateFilm);
 const filters = generateFilter(films);

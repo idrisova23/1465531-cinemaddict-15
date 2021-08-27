@@ -10,6 +10,8 @@ import CommentListView from '../view/comment-list.js';
 import NewCommentFormView from '../view/new-comment-form.js';
 
 const FILM_COUNT_PER_STEP = 5;
+
+const siteBodyElement = document.querySelector('body');
 export default class Board {
   constructor(boardContainer) {
     this._boardContainer = boardContainer;
@@ -32,8 +34,6 @@ export default class Board {
   }
 
   _renderFilm(film) {
-    const siteBodyElement = document.querySelector('body');
-
     const filmComponent = new FilmView(film);
     const popupComponent = new PopupView(film);
     const filmDetailsComponent = new FilmDetailsView(film);
@@ -69,7 +69,7 @@ export default class Board {
 
     filmComponent.setFilmClickHandler(showPopup);
 
-    render(this._filmListComponent, filmComponent, RenderPosition.BEFOREEND);
+    render(document.querySelector('.films-list__container'), filmComponent, RenderPosition.BEFOREEND);
   }
 
   _renderFilms(from, to) {
@@ -87,7 +87,7 @@ export default class Board {
 
     const showMoreButtonComponent = new ShowMoreButtonView();
 
-    render(this._filmListComponent, showMoreButtonComponent, RenderPosition.BEFOREEND);
+    render(document.querySelector('.films-list'), showMoreButtonComponent, RenderPosition.BEFOREEND);
 
     showMoreButtonComponent.setClickHandler(() => {
       this._films
@@ -103,6 +103,8 @@ export default class Board {
   }
 
   _renderFilmList() {
+    render(this._boardContainer, this._filmListComponent, RenderPosition.BEFOREEND);
+
     this._renderFilms(0, Math.min(this._films.length, FILM_COUNT_PER_STEP));
 
     if (this._films.length > FILM_COUNT_PER_STEP) {
