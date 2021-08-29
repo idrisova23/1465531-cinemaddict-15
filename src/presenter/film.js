@@ -3,7 +3,7 @@ import PopupView from '../view/popup.js';
 import FilmDetailsView from '../view/film-details.js';
 import CommentListView from '../view/comment-list.js';
 import NewCommentFormView from '../view/new-comment-form.js';
-import {RenderPosition, render} from '../utils/render.js';
+import {RenderPosition, render, replace, remove} from '../utils/render.js';
 
 const siteBodyElement = document.querySelector('body');
 
@@ -25,6 +25,9 @@ export default class Film {
   init(film) {
     this._film = film;
 
+    const prevFilmComponent = this._filmComponent;
+    const prevPopupComponent = this._popupComponent;
+
     this._filmComponent = new FilmView(film);
     this._popupComponent = new PopupView(film);
     this._filmDetailsComponent = new FilmDetailsView(film);
@@ -34,11 +37,30 @@ export default class Film {
     this._filmComponent.setFilmClickHandler(this._filmClickHandler);
     this._filmDetailsComponent.setCloseClickHandler(this._closeClickHandler);
 
-    render(this._filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
+    if (prevFilmComponent === null || prevPopupComponent === null) {
+      render(this._filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
+      return;
+    }
+
+    if (this._filmListContainer.getElement().contains(prevFilmComponent.getElement())) {
+      replace(this._filmComponent, prevFilmComponent);
+    }
+
+    if (siteBodyElement.contains(prevPopupComponent.getElement())) {
+      replace(this._popupComponent, prevPopupComponent);
+    }
+
+    remove(prevFilmComponent);
+    remove(prevPopupComponent);
+  }
+
+  destroy() {
+    remove(this._filmComponent);
+    remove(this._popupComponent);
   }
 
   _showPopup() {
-    siteBodyElement.appendChild(this._popupComponent.getElement());
+    render(siteBodyElement, this._popupComponent, RenderPosition.BEFOREEND);
     this._popupComponent.getElement().appendChild(this._filmDetailsComponent.getElement());
     this._popupComponent.getElement().appendChild(this._commentListComponent.getElement());
     this._commentListComponent.getElement().appendChild(this._newCommentComponent.getElement());
