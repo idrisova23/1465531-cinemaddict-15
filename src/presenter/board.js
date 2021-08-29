@@ -3,6 +3,7 @@ import FilmListView from '../view/film-list.js';
 import NoFilmView from '../view/no-film.js';
 import ShowMoreButtonView from '../view/show-more-button.js';
 import FilmPresenter from './film.js';
+import {updateItem} from '../utils/common.js';
 import {RenderPosition, render, remove} from '../utils/render.js';
 
 const FILM_COUNT_PER_STEP = 5;
@@ -22,10 +23,15 @@ export default class Board {
   }
 
   init(films, filters) {
-    this._films = films.slice();
+    this._boardFilms = films.slice();
     this._filters = filters;
 
     this._renderBoard();
+  }
+
+  _handleFilmChange(updatedFilm) {
+    this._boardFilms = updateItem(this._boardFilms, updatedFilm);
+    this._filmPresenter.get(updatedFilm.id).init(updatedFilm);
   }
 
   _renderSort() {
@@ -39,7 +45,7 @@ export default class Board {
   }
 
   _renderFilms(from, to) {
-    this._films
+    this._boardFilms
       .slice(from, to)
       .forEach((film) => this._renderFilm(film));
   }
@@ -52,7 +58,7 @@ export default class Board {
     this._renderFilms(this._renderedFilmCount, this._renderedFilmCount + FILM_COUNT_PER_STEP);
     this._renderedFilmCount += FILM_COUNT_PER_STEP;
 
-    if (this._renderedFilmCount >= this._films.length) {
+    if (this._renderedFilmCount >= this._boardFilms.length) {
       remove(this._showMoreButtonComponent);
     }
   }
@@ -73,15 +79,15 @@ export default class Board {
   _renderFilmList() {
     render(this._boardContainer, this._filmListComponent, RenderPosition.BEFOREEND);
 
-    this._renderFilms(0, Math.min(this._films.length, FILM_COUNT_PER_STEP));
+    this._renderFilms(0, Math.min(this._boardFilms.length, FILM_COUNT_PER_STEP));
 
-    if (this._films.length > FILM_COUNT_PER_STEP) {
+    if (this._boardFilms.length > FILM_COUNT_PER_STEP) {
       this._renderShowMoreButton();
     }
   }
 
   _renderBoard() {
-    if (this._films.length === 0) {
+    if (this._boardFilms.length === 0) {
       this._renderNoFilms();
     } else {
       this._renderSort();
