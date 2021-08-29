@@ -11,6 +11,7 @@ export default class Board {
   constructor(boardContainer) {
     this._boardContainer = boardContainer;
     this._renderedFilmCount = FILM_COUNT_PER_STEP;
+    this._filmPresenter = new Map();
 
     this._sortComponent = new SortView();
     this._filmListComponent = new FilmListView();
@@ -34,6 +35,7 @@ export default class Board {
   _renderFilm(film) {
     const filmPresenter = new FilmPresenter(this._filmListComponent.getElement().querySelector('.films-list__container'));
     filmPresenter.init(film);
+    this._filmPresenter.set(film.id, filmPresenter);
   }
 
   _renderFilms(from, to) {
@@ -59,6 +61,13 @@ export default class Board {
     render(this._filmListComponent.getElement().querySelector('.films-list'), this._showMoreButtonComponent, RenderPosition.BEFOREEND);
 
     this._showMoreButtonComponent.setClickHandler(this._handleShowMoreButtonClick);
+  }
+
+  _clearFilmList() {
+    this._filmPresenter.forEach((presenter) => presenter.destroy());
+    this._filmPresenter.clear();
+    this._renderedFilmCount = FILM_COUNT_PER_STEP;
+    remove(this._showMoreButtonComponent);
   }
 
   _renderFilmList() {
