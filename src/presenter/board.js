@@ -40,7 +40,7 @@ export default class Board {
   }
 
   _renderFilm(film) {
-    const filmPresenter = new FilmPresenter(this._filmListComponent.getElement().querySelector('.films-list__container'));
+    const filmPresenter = new FilmPresenter(this._filmListComponent.getElement().querySelector('.films-list__container'), this._handleFilmChange);
     filmPresenter.init(film);
     this._filmPresenter.set(film.id, filmPresenter);
   }

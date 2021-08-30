@@ -8,14 +8,19 @@ import {RenderPosition, render, replace, remove} from '../utils/render.js';
 const siteBodyElement = document.querySelector('body');
 
 export default class Film {
-  constructor(filmListContainer) {
+  constructor(filmListContainer, changeData) {
     this._filmListContainer = filmListContainer;
+    this._changeData = changeData;
 
     this._filmComponent = null;
     this._popupComponent = null;
     this._filmDetailsComponent = null;
     this._commentListComponent = null;
     this._newCommentComponent = null;
+
+    this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
+    this._handleHistoryClick = this._handleHistoryClick.bind(this);
+    this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
 
     this._escKeyDownHandler =  this._escKeyDownHandler.bind(this);
     this._filmClickHandler = this._filmClickHandler.bind(this);
@@ -34,6 +39,9 @@ export default class Film {
     this._commentListComponent = new CommentListView(film);
     this._newCommentComponent = new NewCommentFormView(film);
 
+    this._filmComponent.setWatchlistClickHandler(this._handleWatchlistClick);
+    this._filmComponent.setHistoryClickHandler(this._handleHistoryClick);
+    this._filmComponent.setFavoriteClickHandler(this._handleFavoriteClick);
     this._filmComponent.setFilmClickHandler(this._filmClickHandler);
     this._filmDetailsComponent.setCloseClickHandler(this._closeClickHandler);
 
@@ -42,13 +50,8 @@ export default class Film {
       return;
     }
 
-    if (this._filmListContainer.getElement().contains(prevFilmComponent.getElement())) {
-      replace(this._filmComponent, prevFilmComponent);
-    }
-
-    if (siteBodyElement.contains(prevPopupComponent.getElement())) {
-      replace(this._popupComponent, prevPopupComponent);
-    }
+    replace(this._filmComponent, prevFilmComponent);
+    replace(this._popupComponent, prevPopupComponent);
 
     remove(prevFilmComponent);
     remove(prevPopupComponent);
@@ -89,5 +92,41 @@ export default class Film {
 
   _closeClickHandler() {
     this._closePopup();
+  }
+
+  _handleWatchlistClick() {
+    this._changeData(
+      Object.assign(
+        {},
+        this._film,
+        {
+          isWatchlist: !this._film.isWatchlist,
+        },
+      ),
+    );
+  }
+
+  _handleHistoryClick() {
+    this._changeData(
+      Object.assign(
+        {},
+        this._film,
+        {
+          isHistory: !this._film.isHistory,
+        },
+      ),
+    );
+  }
+
+  _handleFavoriteClick() {
+    this._changeData(
+      Object.assign(
+        {},
+        this._film,
+        {
+          isFavorite: !this._film.isFavorite,
+        },
+      ),
+    );
   }
 }
