@@ -39,11 +39,15 @@ export default class Film {
     this._commentListComponent = new CommentListView(film);
     this._newCommentComponent = new NewCommentFormView(film);
 
+    this._filmComponent.setFilmClickHandler(this._filmClickHandler);
     this._filmComponent.setWatchlistClickHandler(this._handleWatchlistClick);
     this._filmComponent.setHistoryClickHandler(this._handleHistoryClick);
     this._filmComponent.setFavoriteClickHandler(this._handleFavoriteClick);
-    this._filmComponent.setFilmClickHandler(this._filmClickHandler);
+
     this._filmDetailsComponent.setCloseClickHandler(this._closeClickHandler);
+    this._filmDetailsComponent.setWatchlistClickHandler(this._handleWatchlistClick);
+    this._filmDetailsComponent.setHistoryClickHandler(this._handleHistoryClick);
+    this._filmDetailsComponent.setFavoriteClickHandler(this._handleFavoriteClick);
 
     if (prevFilmComponent === null || prevPopupComponent === null) {
       render(this._filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);

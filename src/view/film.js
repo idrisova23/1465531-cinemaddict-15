@@ -30,7 +30,6 @@ export default class Film extends AbstractView {
     this._film = film;
 
     this._filmClickHandler = this._filmClickHandler.bind(this);
-
     this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
     this._historyClickHandler = this._historyClickHandler.bind(this);
     this._favoriteClickHandler = this._favoriteClickHandler.bind(this);

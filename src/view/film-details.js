@@ -12,7 +12,7 @@ const createGenresList = (genres) => {
 
 const createFilmDetailsTemplate = (film) => {
   const {poster, ageRating, title, alternativeTitle, totalRating, director, writers,
-    actors, date, runtime, releaseCountry, genres, description, isWatchlist, isWatched, isFavorite} = film;
+    actors, date, runtime, releaseCountry, genres, description, isWatchlist, isHistory, isFavorite} = film;
 
   const genrestList = createGenresList(genres);
 
@@ -76,7 +76,7 @@ const createFilmDetailsTemplate = (film) => {
 
     <section class="film-details__controls">
       <button type="button" class="film-details__control-button film-details__control-button--watchlist ${isWatchlist && 'film-details__control-button--active'}" id="watchlist" name="watchlist">Add to watchlist</button>
-      <button type="button" class="film-details__control-button film-details__control-button--watched ${isWatched && 'film-details__control-button--active'}" id="watched" name="watched">Already watched</button>
+      <button type="button" class="film-details__control-button film-details__control-button--watched ${isHistory && 'film-details__control-button--active'}" id="watched" name="watched">Already watched</button>
       <button type="button" class="film-details__control-button film-details__control-button--favorite ${isFavorite && 'film-details__control-button--active'}" id="favorite" name="favorite">Add to favorites</button>
     </section>
   </div>`;
@@ -88,6 +88,9 @@ export default class FilmDetails extends AbstractView {
     this._film = film;
 
     this._closeClickHandler = this._closeClickHandler.bind(this);
+    this._watchlistClickHandler = this._watchlistClickHandler.bind(this);
+    this._historyClickHandler = this._historyClickHandler.bind(this);
+    this._favoriteClickHandler = this._favoriteClickHandler.bind(this);
   }
 
   getTemplate() {
@@ -99,8 +102,38 @@ export default class FilmDetails extends AbstractView {
     this._callback.closeClick();
   }
 
+  _watchlistClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.watchlistClick();
+  }
+
+  _historyClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.historyClick();
+  }
+
+  _favoriteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.favoriteClick();
+  }
+
   setCloseClickHandler(callback) {
     this._callback.closeClick = callback;
     this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._closeClickHandler);
+  }
+
+  setWatchlistClickHandler(callback) {
+    this._callback.watchlistClick = callback;
+    this.getElement().querySelector('.film-details__control-button--watchlist').addEventListener('click', this._watchlistClickHandler);
+  }
+
+  setHistoryClickHandler(callback) {
+    this._callback.historyClick = callback;
+    this.getElement().querySelector('.film-details__control-button--watched').addEventListener('click', this._historyClickHandler);
+  }
+
+  setFavoriteClickHandler(callback) {
+    this._callback.favoriteClick = callback;
+    this.getElement().querySelector('.film-details__control-button--favorite').addEventListener('click', this._favoriteClickHandler);
   }
 }
