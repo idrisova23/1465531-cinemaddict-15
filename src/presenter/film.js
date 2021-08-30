@@ -5,18 +5,20 @@ import CommentListView from '../view/comment-list.js';
 import NewCommentFormView from '../view/new-comment-form.js';
 import {RenderPosition, render, replace, remove} from '../utils/render.js';
 
-const siteBodyElement = document.querySelector('body');
+const Mode = {
+  DEFAULT: 'DEFAULT',
+  OPENED: 'OPENED',
+};
 
 export default class Film {
-  constructor(filmListContainer, changeData) {
+  constructor(filmListContainer, changeData, changeMode) {
     this._filmListContainer = filmListContainer;
     this._changeData = changeData;
+    this._changeMode = changeMode;
 
     this._filmComponent = null;
     this._popupComponent = null;
-    this._filmDetailsComponent = null;
-    this._commentListComponent = null;
-    this._newCommentComponent = null;
+    this._mode = Mode.DEFAULT;
 
     this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
     this._handleHistoryClick = this._handleHistoryClick.bind(this);
@@ -67,19 +69,19 @@ export default class Film {
   }
 
   _showPopup() {
-    render(siteBodyElement, this._popupComponent, RenderPosition.BEFOREEND);
+    render(this._filmListContainer, this._popupComponent, RenderPosition.BEFOREEND);
     this._popupComponent.getElement().appendChild(this._filmDetailsComponent.getElement());
     this._popupComponent.getElement().appendChild(this._commentListComponent.getElement());
     this._commentListComponent.getElement().appendChild(this._newCommentComponent.getElement());
 
-    siteBodyElement.classList.add('hide-overflow');
+    document.querySelector('body').classList.add('hide-overflow');
 
     document.addEventListener('keydown', this._escKeyDownHandler);
   }
 
   _closePopup() {
-    siteBodyElement.removeChild(this._popupComponent.getElement());
-    siteBodyElement.classList.remove('hide-overflow');
+    this._filmListContainer.removeChild(this._popupComponent.getElement());
+    document.querySelector('body').classList.remove('hide-overflow');
     document.removeEventListener('keydown', this._escKeyDownHandler);
   }
 
