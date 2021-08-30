@@ -20,6 +20,7 @@ export default class Board {
     this._showMoreButtonComponent = new ShowMoreButtonView();
 
     this._handleFilmChange = this._handleFilmChange.bind(this);
+    this._handleModeChange = this._handleModeChange.bind(this);
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
   }
 
@@ -28,6 +29,10 @@ export default class Board {
     this._filters = filters;
 
     this._renderBoard();
+  }
+
+  _handleModeChange() {
+    this._filmPresenter.forEach((presenter) => presenter.resetView());
   }
 
   _handleFilmChange(updatedFilm) {
@@ -40,7 +45,7 @@ export default class Board {
   }
 
   _renderFilm(film) {
-    const filmPresenter = new FilmPresenter(this._filmListComponent.getElement().querySelector('.films-list__container'), this._handleFilmChange);
+    const filmPresenter = new FilmPresenter(this._filmListComponent.getElement().querySelector('.films-list__container'), this._handleFilmChange, this._handleModeChange);
     filmPresenter.init(film);
     this._filmPresenter.set(film.id, filmPresenter);
   }

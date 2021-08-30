@@ -56,8 +56,13 @@ export default class Film {
       return;
     }
 
-    replace(this._filmComponent, prevFilmComponent);
-    replace(this._popupComponent, prevPopupComponent);
+    if (this._mode === Mode.DEFAULT) {
+      replace(this._filmComponent, prevFilmComponent);
+    }
+
+    if (this._mode === Mode.OPENED) {
+      replace(this._popupComponent, prevPopupComponent);
+    }
 
     remove(prevFilmComponent);
     remove(prevPopupComponent);
@@ -68,36 +73,51 @@ export default class Film {
     remove(this._popupComponent);
   }
 
-  _showPopup() {
-    render(this._filmListContainer, this._popupComponent, RenderPosition.BEFOREEND);
+  resetView() {
+    if (this._mode !== Mode.DEFAULT) {
+      this._removePopup();
+    }
+  }
+
+  _renderPopup() {
+    const siteBodyElement = document.querySelector('body');
+
+    siteBodyElement.appendChild(this._popupComponent.getElement());
     this._popupComponent.getElement().appendChild(this._filmDetailsComponent.getElement());
     this._popupComponent.getElement().appendChild(this._commentListComponent.getElement());
     this._commentListComponent.getElement().appendChild(this._newCommentComponent.getElement());
-
-    document.querySelector('body').classList.add('hide-overflow');
+    siteBodyElement.classList.add('hide-overflow');
 
     document.addEventListener('keydown', this._escKeyDownHandler);
+
+    this._changeMode();
+    this._mode = Mode.OPENED;
   }
 
-  _closePopup() {
-    this._filmListContainer.removeChild(this._popupComponent.getElement());
-    document.querySelector('body').classList.remove('hide-overflow');
+  _removePopup() {
+    const siteBodyElement = document.querySelector('body');
+
+    siteBodyElement.removeChild(this._popupComponent.getElement());
+    siteBodyElement.classList.remove('hide-overflow');
+
     document.removeEventListener('keydown', this._escKeyDownHandler);
+
+    this._mode = Mode.DEFAULT;
   }
 
   _escKeyDownHandler(evt) {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
-      this._closePopup();
+      this._removePopup();
     }
   }
 
   _filmClickHandler() {
-    this._showPopup();
+    this._renderPopup();
   }
 
   _closeClickHandler() {
-    this._closePopup();
+    this._removePopup();
   }
 
   _handleWatchlistClick() {
