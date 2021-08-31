@@ -45,7 +45,6 @@ export default class Film {
     this._popupComponent.getElement().appendChild(this._commentListComponent.getElement());
     this._commentListComponent.getElement().appendChild(this._newCommentComponent.getElement());
 
-
     this._filmComponent.setFilmClickHandler(this._filmClickHandler);
     this._filmComponent.setWatchlistClickHandler(this._handleWatchlistClick);
     this._filmComponent.setHistoryClickHandler(this._handleHistoryClick);
@@ -82,6 +81,11 @@ export default class Film {
     }
   }
 
+  _removeHideOverflow() {
+    const siteBodyElement = document.querySelector('body');
+    siteBodyElement.classList.remove('hide-overflow');
+  }
+
   _renderPopup() {
     const siteBodyElement = document.querySelector('body');
 
@@ -98,7 +102,6 @@ export default class Film {
     const siteBodyElement = document.querySelector('body');
 
     siteBodyElement.removeChild(this._popupComponent.getElement());
-    siteBodyElement.classList.remove('hide-overflow');
 
     document.removeEventListener('keydown', this._escKeyDownHandler);
 
@@ -109,6 +112,7 @@ export default class Film {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
       this._removePopup();
+      this._removeHideOverflow();
     }
   }
 
@@ -118,6 +122,7 @@ export default class Film {
 
   _closeClickHandler() {
     this._removePopup();
+    this._removeHideOverflow();
   }
 
   _handleWatchlistClick() {
