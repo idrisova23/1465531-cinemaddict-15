@@ -41,6 +41,11 @@ export default class Film {
     this._commentListComponent = new CommentListView(film);
     this._newCommentComponent = new NewCommentFormView(film);
 
+    this._popupComponent.getElement().appendChild(this._filmDetailsComponent.getElement());
+    this._popupComponent.getElement().appendChild(this._commentListComponent.getElement());
+    this._commentListComponent.getElement().appendChild(this._newCommentComponent.getElement());
+
+
     this._filmComponent.setFilmClickHandler(this._filmClickHandler);
     this._filmComponent.setWatchlistClickHandler(this._handleWatchlistClick);
     this._filmComponent.setHistoryClickHandler(this._handleHistoryClick);
@@ -56,9 +61,7 @@ export default class Film {
       return;
     }
 
-    if (this._mode === Mode.DEFAULT) {
-      replace(this._filmComponent, prevFilmComponent);
-    }
+    replace(this._filmComponent, prevFilmComponent);
 
     if (this._mode === Mode.OPENED) {
       replace(this._popupComponent, prevPopupComponent);
@@ -83,9 +86,6 @@ export default class Film {
     const siteBodyElement = document.querySelector('body');
 
     siteBodyElement.appendChild(this._popupComponent.getElement());
-    this._popupComponent.getElement().appendChild(this._filmDetailsComponent.getElement());
-    this._popupComponent.getElement().appendChild(this._commentListComponent.getElement());
-    this._commentListComponent.getElement().appendChild(this._newCommentComponent.getElement());
     siteBodyElement.classList.add('hide-overflow');
 
     document.addEventListener('keydown', this._escKeyDownHandler);
