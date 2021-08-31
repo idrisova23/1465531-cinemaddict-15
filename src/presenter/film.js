@@ -36,10 +36,10 @@ export default class Film {
     const prevPopupComponent = this._popupComponent;
 
     this._filmComponent = new FilmView(film);
-    this._popupComponent = new PopupView(film);
+    this._popupComponent = new PopupView();
     this._filmDetailsComponent = new FilmDetailsView(film);
     this._commentListComponent = new CommentListView(film);
-    this._newCommentComponent = new NewCommentFormView(film);
+    this._newCommentComponent = new NewCommentFormView();
 
     this._popupComponent.getElement().appendChild(this._filmDetailsComponent.getElement());
     this._popupComponent.getElement().appendChild(this._commentListComponent.getElement());
