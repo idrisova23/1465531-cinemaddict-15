@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import dayjsRandom from 'dayjs-random';
+import {nanoid} from 'nanoid';
 import {FILM_COUNT} from '../main';
 import {getRandomInteger, getRandomFloat, getRandomArrayItem, generateUniqArray, fancyTimeFormat} from '../utils/common.js';
 
@@ -100,6 +101,7 @@ export const generateComment = () => ({
 });
 
 export const generateFilm = () => ({
+  id: nanoid(),
   title: getRandomArrayItem(TITLES),
   alternativeTitle: getRandomArrayItem(ALTERNATIVE_TITLES),
   totalRating: getRandomFloat(3, 10, 1),
