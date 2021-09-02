@@ -3,7 +3,8 @@ import FilmListView from '../view/film-list.js';
 import NoFilmView from '../view/no-film.js';
 import ShowMoreButtonView from '../view/show-more-button.js';
 import FilmPresenter from './film.js';
-import {updateItem} from '../utils/common.js';
+import {SortType} from '../utils/const.js';
+import {updateItem, sortByDate, sortByRating} from '../utils/common.js';
 import {RenderPosition, render, remove} from '../utils/render.js';
 
 const FILM_COUNT_PER_STEP = 5;
@@ -13,6 +14,7 @@ export default class Board {
     this._boardContainer = boardContainer;
     this._renderedFilmCount = FILM_COUNT_PER_STEP;
     this._filmPresenter = new Map();
+    this._currentSortType = SortType.DEFAULT;
 
     this._sortComponent = new SortView();
     this._filmListComponent = new FilmListView();
@@ -27,6 +29,7 @@ export default class Board {
 
   init(films, filters) {
     this._boardFilms = films.slice();
+    this._sourcedBoardFilms = films.slice();
     this._filters = filters;
 
     this._renderBoard();
@@ -38,12 +41,31 @@ export default class Board {
 
   _handleFilmChange(updatedFilm) {
     this._boardFilms = updateItem(this._boardFilms, updatedFilm);
+    this._sourcedBoardFilms = updateItem(this._sourcedBoardFilms, updatedFilm);
     this._filmPresenter.get(updatedFilm.id).init(updatedFilm);
   }
 
-  _handleSortTypeChange() {
-    // - Сортируем задачи
-    // - Очищаем список
+  _sortFilms(sortType) {
+    switch (sortType) {
+      case SortType.DATE_DOWN:
+        this._boardFilms.sort(sortByDate);
+        break;
+      case SortType.RATING_DOWN:
+        this._boardFilms.sort(sortByRating);
+        break;
+      default:
+        this._boardFilms = this._sourcedBoardFilms.slice();
+    }
+
+    this._currentSortType = sortType;
+  }
+
+  _handleSortTypeChange(sortType) {
+    if (this._currentSortType === sortType) {
+      return;
+    }
+
+    this._sortFilms(sortType);
     // - Рендерим список заново
   }
 

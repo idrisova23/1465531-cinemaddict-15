@@ -1,10 +1,5 @@
 import AbstractView from './abstract.js';
-
-export const SortType = {
-  DEFAULT: 'default',
-  DATE_DOWN: 'date-down',
-  RATING_DOWN: 'rating-down',
-};
+import {SortType} from '../utils/const.js';
 
 const createSortTemplate = (currentSortType) => (
   `<ul class="sort">
