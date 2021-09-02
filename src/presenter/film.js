@@ -4,11 +4,7 @@ import FilmDetailsView from '../view/film-details.js';
 import CommentListView from '../view/comment-list.js';
 import NewCommentFormView from '../view/new-comment-form.js';
 import {RenderPosition, render, replace, remove} from '../utils/render.js';
-
-const Mode = {
-  DEFAULT: 'DEFAULT',
-  OPENED: 'OPENED',
-};
+import {Mode} from '../utils/const.js';
 
 export default class Film {
   constructor(filmListContainer, changeData, changeMode) {

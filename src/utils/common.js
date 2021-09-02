@@ -57,4 +57,4 @@ export const updateItem = (items, update) => {
 
 export const sortByDate = (filmA, filmB) => dayjs(filmB.date).diff(dayjs(filmA.date));
 
-export const sortByRating = (filmA, filmB) => dayjs(filmB.rating).diff(dayjs(filmA.rating));
+export const sortByRating = (filmA, filmB) => filmB.totalRating - filmA.totalRating;
