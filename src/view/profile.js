@@ -1,7 +1,7 @@
 import AbstractView from './abstract.js';
 
 const createProfileTemplate = (films) => {
-  const filmsWatched = films.filter((film) => film.isWatched).length;
+  const filmsWatched = films.filter((film) => film.isHistory).length;
   let rating = null;
 
   switch (true) {
