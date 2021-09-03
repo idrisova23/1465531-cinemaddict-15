@@ -4,11 +4,7 @@ import FilmDetailsView from '../view/film-details.js';
 import CommentListView from '../view/comment-list.js';
 import NewCommentFormView from '../view/new-comment-form.js';
 import {RenderPosition, render, replace, remove} from '../utils/render.js';
-
-const Mode = {
-  DEFAULT: 'DEFAULT',
-  OPENED: 'OPENED',
-};
+import {Mode} from '../utils/const.js';
 
 export default class Film {
   constructor(filmListContainer, changeData, changeMode) {
@@ -36,10 +32,10 @@ export default class Film {
     const prevPopupComponent = this._popupComponent;
 
     this._filmComponent = new FilmView(film);
-    this._popupComponent = new PopupView(film);
+    this._popupComponent = new PopupView();
     this._filmDetailsComponent = new FilmDetailsView(film);
     this._commentListComponent = new CommentListView(film);
-    this._newCommentComponent = new NewCommentFormView(film);
+    this._newCommentComponent = new NewCommentFormView();
 
     this._popupComponent.getElement().appendChild(this._filmDetailsComponent.getElement());
     this._popupComponent.getElement().appendChild(this._commentListComponent.getElement());
