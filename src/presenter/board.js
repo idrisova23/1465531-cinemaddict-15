@@ -48,18 +48,12 @@ export default class Board {
   _sortFilms(sortType) {
     switch (sortType) {
       case SortType.DATE_DOWN:
-        document.querySelector('.sort__button--active').classList.remove('sort__button--active');
-        document.querySelector(`[data-sort-type="${SortType.DATE_DOWN}"]`).classList.add('sort__button--active');
         this._films.sort(sortByDate);
         break;
       case SortType.RATING_DOWN:
-        document.querySelector('.sort__button--active').classList.remove('sort__button--active');
-        document.querySelector(`[data-sort-type="${SortType.RATING_DOWN}"]`).classList.add('sort__button--active');
         this._films.sort(sortByRating);
         break;
       default:
-        document.querySelector('.sort__button--active').classList.remove('sort__button--active');
-        document.querySelector(`[data-sort-type="${SortType.DEFAULT}"]`).classList.add('sort__button--active');
         this._films = this._sourcedFilms.slice();
     }
 

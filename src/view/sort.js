@@ -12,6 +12,7 @@ const createSortTemplate = () => (
 export default class Sort extends AbstractView {
   constructor() {
     super();
+    this._prevElement = null;
 
     this._sortTypeChangeHandler = this._sortTypeChangeHandler.bind(this);
   }
@@ -26,6 +27,15 @@ export default class Sort extends AbstractView {
     }
 
     evt.preventDefault();
+
+    if (this._prevElement === null) {
+      this._prevElement = document.querySelector('.sort__button--active');
+    }
+
+    this._prevElement.classList.remove('sort__button--active');
+    evt.target.classList.add('sort__button--active');
+    this._prevElement = evt.target;
+
     this._callback.sortTypeChange(evt.target.dataset.sortType);
   }
 
