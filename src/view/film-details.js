@@ -1,4 +1,5 @@
 import AbstractView from './abstract.js';
+import dayjs from 'dayjs';
 
 const createGenresList = (genres) => {
   let genresList = '';
@@ -58,7 +59,7 @@ const createFilmDetailsTemplate = (film) => {
           </tr>
           <tr class="film-details__row">
             <td class="film-details__term">Runtime</td>
-            <td class="film-details__cell">${runtime}</td>
+            <td class="film-details__cell">${dayjs.between(runtime).format('H[h] mm[m]')}</td>
           </tr>
           <tr class="film-details__row">
             <td class="film-details__term">Country</td>

@@ -35,7 +35,7 @@ export default class Film {
     this._popupComponent = new PopupView();
     this._filmDetailsComponent = new FilmDetailsView(film);
     this._commentListComponent = new CommentListView(film);
-    this._newCommentComponent = new NewCommentFormView();
+    this._newCommentComponent = new NewCommentFormView(film);
 
     this._popupComponent.getElement().appendChild(this._filmDetailsComponent.getElement());
     this._popupComponent.getElement().appendChild(this._commentListComponent.getElement());
@@ -107,6 +107,7 @@ export default class Film {
   _escKeyDownHandler(evt) {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
+      this._newCommentComponent.reset(this._film);
       this._removePopup();
       this._removeHideOverflow();
     }

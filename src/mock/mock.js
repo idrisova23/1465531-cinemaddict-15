@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import dayjsRandom from 'dayjs-random';
 import {nanoid} from 'nanoid';
 import {FILM_COUNT} from '../main';
-import {getRandomInteger, getRandomFloat, getRandomArrayItem, generateUniqArray, fancyTimeFormat} from '../utils/common.js';
+import {getRandomInteger, getRandomFloat, getRandomArrayItem, generateUniqArray} from '../utils/common.js';
 
 const AUTHORS = ['Nathanos Blightcaller', 'Accidental genius', 'Donna Martin', 'Coffee zombie', 'Disco potato'];
 const EMOTIONS = ['smile', 'sleeping', 'puke', 'angry'];
@@ -112,7 +112,7 @@ export const generateFilm = () => ({
   actors: generateUniqArray(ACTORS, 1, 4),
   date: dayjs.between('1991-06-10', '2021-03-02'),
   releaseCountry: getRandomArrayItem(COUNTRYES),
-  runtime: fancyTimeFormat(getRandomInteger(70, 175)),
+  runtime: getRandomInteger(70, 175),
   genres: generateUniqArray(GENRES, 1, 3, ' '),
   description: generateUniqArray(DESCRIPTIONS, 1, 5, ' '),
   comments: new Array(getRandomInteger(0, 5)).fill(null).map(() => generateComment()),
