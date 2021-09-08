@@ -1,5 +1,8 @@
 import AbstractView from './abstract.js';
 import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+
+dayjs.extend(duration);
 
 const SYMBOL_COUNT = 139;
 
@@ -11,7 +14,7 @@ const createFilmTemplate = (film) => {
     <p class="film-card__rating">${totalRating}</p>
     <p class="film-card__info">
       <span class="film-card__year">${date.format('YYYY')}</span>
-      <span class="film-card__duration">${dayjs.between(runtime).format('H[h] mm[m]')}</span>
+      <span class="film-card__duration">${dayjs.duration(runtime, 'minutes').format('H[h] mm[m]')}</span>
       <span class="film-card__genre">${genres.split(' ')[0]}</span>
     </p>
     <img src=${poster} alt="" class="film-card__poster">

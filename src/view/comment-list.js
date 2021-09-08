@@ -12,7 +12,7 @@ const createCommentList = (comments) => {
       <p class="film-details__comment-text">${comments[i].comment}</p>
       <p class="film-details__comment-info">
         <span class="film-details__comment-author">${comments[i].author}</span>
-        <span class="film-details__comment-day">${comments[i].date}</span>
+        <span class="film-details__comment-day">${comments[i].date.format('YYYY/MM/DD hh:mm')}</span>
         <button class="film-details__comment-delete">Delete</button>
       </p>
     </div>

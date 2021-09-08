@@ -95,7 +95,7 @@ dayjs.extend(dayjsRandom);
 
 export const generateComment = () => ({
   emotion: getRandomArrayItem(EMOTIONS),
-  date: dayjs.between('2019-06-10', '2021-03-02').format('YYYY/MM/DD hh:mm'),
+  date: dayjs.between('2019-06-10', '2021-03-02'),
   author: getRandomArrayItem(AUTHORS),
   comment: generateUniqArray(COMMENTS, 1, 5),
 });
