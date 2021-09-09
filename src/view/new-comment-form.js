@@ -2,7 +2,7 @@ import SmartView from './smart.js';
 
 const createNewCommentFormTemplate = (data) => {
   const {emotion, text} = data;
-  const isChecked = (emoji) => emoji === emotion;
+  const isChecked = (value) => value === emotion ? 'checked' : '';
 
   return `<div class="film-details__new-comment">
     <div class="film-details__add-emoji-label">
@@ -14,22 +14,22 @@ const createNewCommentFormTemplate = (data) => {
     </label>
 
     <div class="film-details__emoji-list">
-      <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile" checked=${isChecked('smile')}>
+      <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile" ${isChecked('smile')}>
       <label class="film-details__emoji-label" for="emoji-smile">
         <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
       </label>
 
-      <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping" checked=${isChecked('sleeping')}>
+      <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping" ${isChecked('sleeping')}>
       <label class="film-details__emoji-label" for="emoji-sleeping">
         <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
       </label>
 
-      <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke" checked=${isChecked('puke')}>
+      <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke" ${isChecked('puke')}>
       <label class="film-details__emoji-label" for="emoji-puke">
         <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
       </label>
 
-      <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry" checked=${isChecked('angry')}>
+      <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry" ${isChecked('angry')}>
       <label class="film-details__emoji-label" for="emoji-angry">
         <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
       </label>
@@ -50,7 +50,7 @@ export default class NewCommentForm extends SmartView {
 
   reset(film) {
     this.updateData(
-      NewCommentForm.parseTaskToData(film),
+      NewCommentForm.parseFilmToData(film),
     );
   }
 
@@ -73,8 +73,6 @@ export default class NewCommentForm extends SmartView {
   }
 
   _formSubmitHandler(evt) {
-    evt.preventDefault();
-    // TODO: добавить проверку на Ctrl+Enter
     if (evt.key !== 'Enter' && evt.key !== '13') {
       return;
     }
