@@ -1,4 +1,8 @@
 import AbstractView from './abstract.js';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+
+dayjs.extend(duration);
 
 const createGenresList = (genres) => {
   let genresList = '';
@@ -58,7 +62,7 @@ const createFilmDetailsTemplate = (film) => {
           </tr>
           <tr class="film-details__row">
             <td class="film-details__term">Runtime</td>
-            <td class="film-details__cell">${runtime}</td>
+            <td class="film-details__cell">${dayjs.duration(runtime, 'minutes').format('H[h] mm[m]')}</td>
           </tr>
           <tr class="film-details__row">
             <td class="film-details__term">Country</td>

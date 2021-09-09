@@ -27,20 +27,6 @@ export const generateUniqArray = (array, indexFrom, indexTo, separator = ', ') =
   return uniqArray.join(separator);
 };
 
-export const fancyTimeFormat = (minutes) => {
-  const hours = Math.floor(minutes / 60);
-  const mins = Math.floor(minutes % 60);
-  let duration = '';
-  if (hours > 0) {
-    duration += `${hours}h ${mins < 10 ? '0' : ''}`;
-    duration += `${mins}m `;
-  } else {
-    duration += `${mins}m `;
-  }
-
-  return duration;
-};
-
 export const updateItem = (items, update) => {
   const index = items.findIndex((item) => item.id === update.id);
 
