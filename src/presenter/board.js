@@ -10,7 +10,8 @@ import {RenderPosition, render, remove} from '../utils/render.js';
 const FILM_COUNT_PER_STEP = 5;
 
 export default class Board {
-  constructor(boardContainer) {
+  constructor(boardContainer, filmsModel) {
+    this._filmsModel = filmsModel;
     this._boardContainer = boardContainer;
     this._renderedFilmCount = FILM_COUNT_PER_STEP;
     this._filmPresenter = new Map();
@@ -33,6 +34,10 @@ export default class Board {
     this._filters = filters;
 
     this._renderBoard();
+  }
+
+  _getFilms() {
+    return this._filmsModel.getFilms();
   }
 
   _handleModeChange() {
