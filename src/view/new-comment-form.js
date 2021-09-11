@@ -73,7 +73,7 @@ export default class NewCommentForm extends SmartView {
   }
 
   _formSubmitHandler(evt) {
-    if (evt.key !== 'Enter' && evt.key !== '13') {
+    if (evt.keyCode === 13 && (evt.metaKey || evt.ctrlKey)) {
       return;
     }
     this._callback.formSubmit(NewCommentForm.parseDataToFilm(this._data));
