@@ -23,7 +23,7 @@ const boardPresenter = new BoardPresenter(siteMainElement, filmsModel);
 render(siteHeaderElement, new ProfileView(films), RenderPosition.BEFOREEND);
 render(siteMainElement, new FilterMenuView(filters), RenderPosition.BEFOREEND);
 
-boardPresenter.init(films, filters);
+boardPresenter.init();
 
 const footerStatistics = document.querySelector('.footer__statistics');
 
