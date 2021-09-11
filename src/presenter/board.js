@@ -3,7 +3,7 @@ import FilmListView from '../view/film-list.js';
 import NoFilmView from '../view/no-film.js';
 import ShowMoreButtonView from '../view/show-more-button.js';
 import FilmPresenter from './film.js';
-import {SortType} from '../utils/const.js';
+import {SortType, UpdateType, UserAction} from '../utils/const.js';
 import {sortByDate, sortByRating} from '../utils/common.js';
 import {RenderPosition, render, remove} from '../utils/render.js';
 
@@ -51,19 +51,33 @@ export default class Board {
   }
 
   _handleViewAction(actionType, updateType, update) {
-    console.log(actionType, updateType, update);
-    // Здесь будем вызывать обновление модели.
-    // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
-    // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
-    // update - обновленные данные
+    switch (actionType) {
+      case UserAction.UPDATE_FILM:
+        this._filmsModel.updateFilm(updateType, update);
+        break;
+      case UserAction.ADD_COMMENT:
+        this._filmsModel.addComment(updateType, update);
+        break;
+      case UserAction.DELETE_COMMENT:
+        this._filmsModel.deleteComment(updateType, update);
+        break;
+    }
   }
 
   _handleModelEvent(updateType, data) {
-    console.log(updateType, data);
     // В зависимости от типа изменений решаем, что делать:
-    // - обновить часть списка (например, когда поменялось описание)
-    // - обновить список (например, когда задача ушла в архив)
-    // - обновить всю доску (например, при переключении фильтра)
+    switch (updateType) {
+      case UpdateType.PATCH:
+        // - обновить карточку фильма
+        this._filmPresenter.get(data.id).init(data);
+        break;
+      case UpdateType.MINOR:
+        // - обновить список фильмов
+        break;
+      case UpdateType.MAJOR:
+        // - обновить всю доску (например, при переключении фильтра)
+        break;
+    }
   }
 
   _handleSortTypeChange(sortType) {
