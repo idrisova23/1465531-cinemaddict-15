@@ -5,6 +5,7 @@ import CommentListView from '../view/comment-list.js';
 import NewCommentFormView from '../view/new-comment-form.js';
 import {RenderPosition, render, replace, remove} from '../utils/render.js';
 import {Mode} from '../utils/const.js';
+import {UserAction, UpdateType} from '../utils/const.js';
 
 export default class Film {
   constructor(filmListContainer, changeData, changeMode) {
@@ -124,6 +125,8 @@ export default class Film {
 
   _handleWatchlistClick() {
     this._changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
       Object.assign(
         {},
         this._film,
@@ -136,6 +139,8 @@ export default class Film {
 
   _handleHistoryClick() {
     this._changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
       Object.assign(
         {},
         this._film,
@@ -148,6 +153,8 @@ export default class Film {
 
   _handleFavoriteClick() {
     this._changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
       Object.assign(
         {},
         this._film,
