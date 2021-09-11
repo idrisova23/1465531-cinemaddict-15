@@ -17,10 +17,11 @@ export default class Board {
     this._filmPresenter = new Map();
     this._currentSortType = SortType.DEFAULT;
 
-    this._sortComponent = new SortView();
+    this._sortComponent = null;
+    this._showMoreButtonComponent = null;
+
     this._filmListComponent = new FilmListView();
     this._noFilmComponent = new NoFilmView();
-    this._showMoreButtonComponent = new ShowMoreButtonView();
 
     this._handleViewAction = this._handleViewAction.bind(this);
     this._handleModelEvent = this._handleModelEvent.bind(this);
@@ -65,17 +66,17 @@ export default class Board {
   }
 
   _handleModelEvent(updateType, data) {
-    // В зависимости от типа изменений решаем, что делать:
     switch (updateType) {
       case UpdateType.PATCH:
-        // - обновить карточку фильма
         this._filmPresenter.get(data.id).init(data);
         break;
       case UpdateType.MINOR:
-        // - обновить список фильмов
+        this._clearBoard();
+        this._renderBoard();
         break;
       case UpdateType.MAJOR:
-        // - обновить всю доску (например, при переключении фильтра)
+        this._clearBoard({resetRenderedFilmCount: true, resetSortType: true});
+        this._renderBoard();
         break;
     }
   }
@@ -86,13 +87,19 @@ export default class Board {
     }
 
     this._currentSortType = sortType;
-    this._clearFilmList();
-    this._renderFilmList();
+    this._clearBoard({resetRenderedFilmCount: true});
+    this._renderBoard();
   }
 
   _renderSort() {
-    render(this._boardContainer, this._sortComponent, RenderPosition.BEFOREEND);
+    if (this._sortComponent !== null) {
+      this._sortComponent = null;
+    }
+
+    this._sortComponent = new SortView(this._currentSortType);
     this._sortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
+
+    render(this._boardContainer, this._sortComponent, RenderPosition.BEFOREEND);
   }
 
   _renderFilm(film) {
@@ -123,9 +130,14 @@ export default class Board {
   }
 
   _renderShowMoreButton() {
-    render(this._filmListComponent.getElement().querySelector('.films-list'), this._showMoreButtonComponent, RenderPosition.BEFOREEND);
+    if (this._showMoreButtonComponent !== null) {
+      this._showMoreButtonComponent = null;
+    }
 
+    this._showMoreButtonComponent = new ShowMoreButtonView();
     this._showMoreButtonComponent.setClickHandler(this._handleShowMoreButtonClick);
+
+    render(this._filmListComponent.getElement().querySelector('.films-list'), this._showMoreButtonComponent, RenderPosition.BEFOREEND);
   }
 
   _clearFilmList() {
@@ -145,6 +157,27 @@ export default class Board {
 
     if (filmCount > FILM_COUNT_PER_STEP) {
       this._renderShowMoreButton();
+    }
+  }
+
+  _clearBoard({resetRenderedFilmCount = false, resetSortType = false} = {}) {
+    const filmCount = this._getFilms().length;
+
+    this._filmPresenter.forEach((presenter) => presenter.destroy());
+    this._filmPresenter.clear();
+
+    remove(this._sortComponent);
+    remove(this._noFilmComponent);
+    remove(this._showMoreButtonComponent);
+
+    if (resetRenderedFilmCount) {
+      this._renderedFilmCount = FILM_COUNT_PER_STEP;
+    } else {
+      this._renderedFilmCount = Math.min(filmCount, this._renderedFilmCount);
+    }
+
+    if (resetSortType) {
+      this._currentSortType = SortType.DEFAULT;
     }
   }
 
