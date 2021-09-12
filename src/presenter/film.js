@@ -1,3 +1,4 @@
+import {nanoid} from 'nanoid';
 import FilmView from '../view/film.js';
 import PopupView from '../view/popup.js';
 import FilmDetailsView from '../view/film-details.js';
@@ -20,6 +21,7 @@ export default class Film {
     this._handleHistoryClick = this._handleHistoryClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
     this._handleDeleteClick = this._handleDeleteClick.bind(this);
+    this._handleFormSubmit = this._handleFormSubmit.bind(this);
 
     this._escKeyDownHandler =  this._escKeyDownHandler.bind(this);
     this._filmClickHandler = this._filmClickHandler.bind(this);
@@ -53,6 +55,7 @@ export default class Film {
     this._filmDetailsComponent.setFavoriteClickHandler(this._handleFavoriteClick);
 
     this._commentListComponent.setDeleteClickHandler(this._handleDeleteClick);
+    this._newCommentComponent.setFormSubmitHandler(this._handleFormSubmit);
 
     if (prevFilmComponent === null || prevPopupComponent === null) {
       render(this._filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
@@ -177,6 +180,24 @@ export default class Film {
         {
           comment: {
             id: evt.target.id,
+          },
+        },
+      ),
+    );
+  }
+
+  _handleFormSubmit(data) {
+    this._changeData(
+      UserAction.ADD_COMMENT,
+      UpdateType.PATCH,
+      Object.assign(
+        {},
+        this._film,
+        {
+          newComment: {
+            id: nanoid(),
+            emotion: data.emotion,
+            comment: data.text,
           },
         },
       ),

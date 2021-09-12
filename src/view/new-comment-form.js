@@ -44,6 +44,7 @@ export default class NewCommentForm extends SmartView {
 
     this._newEmotionToggleHandler = this._newEmotionToggleHandler.bind(this);
     this._newTextInputHandler = this._newTextInputHandler.bind(this);
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
 
     this._setInnerHandlers();
   }
@@ -90,15 +91,16 @@ export default class NewCommentForm extends SmartView {
   }
 
   _formSubmitHandler(evt) {
-    if (evt.keyCode === 13 && (evt.metaKey || evt.ctrlKey)) {
+    if (evt.key !== 'Enter' && evt.key !== '13' && (!evt.metaKey || !evt.ctrlKey)) {
       return;
     }
+
     this._callback.formSubmit(NewCommentForm.parseDataToFilm(this._data));
   }
 
   setFormSubmitHandler(callback) {
     this._callback.formSubmit = callback;
-    document.addEventListener('keydown', this._formSubmitHandler);
+    this.getElement().querySelector('.film-details__comment-input').addEventListener('keydown', this._formSubmitHandler);
   }
 
   static parseFilmToData(film) {
