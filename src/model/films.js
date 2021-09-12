@@ -35,9 +35,9 @@ export default class Films extends AbstractObserver {
 
     const updatedFilm = {
       ...this._films[filmIndex],
-      comment: [
+      comments: [
         update.newComment,
-        ...this._films[filmIndex].comment,
+        ...this._films[filmIndex].comments,
       ],
     };
 
@@ -52,7 +52,7 @@ export default class Films extends AbstractObserver {
 
   deleteComment(updateType, update) {
     const filmIndex = this._films.findIndex((film) => film.id === update.id);
-    const commentIndex = this._films[filmIndex].comment.findIndex((comment) => comment.id === update.comment.id);
+    const commentIndex = this._films[filmIndex].comments.findIndex((comment) => comment.id === update.comment.id);
 
     if (commentIndex === -1) {
       throw new Error('Can\'t delete unexisting comment');
@@ -60,9 +60,9 @@ export default class Films extends AbstractObserver {
 
     const updatedFilm = {
       ...this._films[filmIndex],
-      comment: [
-        ...this._films[filmIndex].comment.slice(0, commentIndex),
-        ...this._films[filmIndex].comment.slice(commentIndex + 1),
+      comments: [
+        ...this._films[filmIndex].comments.slice(0, commentIndex),
+        ...this._films[filmIndex].comments.slice(commentIndex + 1),
       ],
     };
 

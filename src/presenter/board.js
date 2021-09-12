@@ -140,26 +140,6 @@ export default class Board {
     render(this._filmListComponent.getElement().querySelector('.films-list'), this._showMoreButtonComponent, RenderPosition.BEFOREEND);
   }
 
-  _clearFilmList() {
-    this._filmPresenter.forEach((presenter) => presenter.destroy());
-    this._filmPresenter.clear();
-    this._renderedFilmCount = FILM_COUNT_PER_STEP;
-    remove(this._showMoreButtonComponent);
-  }
-
-  _renderFilmList() {
-    render(this._boardContainer, this._filmListComponent, RenderPosition.BEFOREEND);
-
-    const filmCount = this._getFilms().length;
-    const films = this._getFilms().slice(0, Math.min(filmCount, FILM_COUNT_PER_STEP));
-
-    this._renderFilms(films);
-
-    if (filmCount > FILM_COUNT_PER_STEP) {
-      this._renderShowMoreButton();
-    }
-  }
-
   _clearBoard({resetRenderedFilmCount = false, resetSortType = false} = {}) {
     const filmCount = this._getFilms().length;
 
@@ -182,13 +162,21 @@ export default class Board {
   }
 
   _renderBoard() {
-    const filmCount = this._getFilms().length;
+    const films = this._getFilms();
+    const filmCount = films.length;
 
     if (filmCount === 0) {
       this._renderNoFilms();
-    } else {
-      this._renderSort();
-      this._renderFilmList();
+      return;
+    }
+
+    this._renderSort();
+
+    render(this._boardContainer, this._filmListComponent, RenderPosition.BEFOREEND);
+    this._renderFilms(films.slice(0, Math.min(filmCount, this._renderedFilmCount)));
+
+    if (filmCount > this._renderedFilmCount) {
+      this._renderShowMoreButton();
     }
   }
 }

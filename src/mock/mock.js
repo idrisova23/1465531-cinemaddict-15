@@ -94,6 +94,7 @@ const DESCRIPTIONS = [
 dayjs.extend(dayjsRandom);
 
 export const generateComment = () => ({
+  id: nanoid(),
   emotion: getRandomArrayItem(EMOTIONS),
   date: dayjs.between('2019-06-10', '2021-03-02'),
   author: getRandomArrayItem(AUTHORS),

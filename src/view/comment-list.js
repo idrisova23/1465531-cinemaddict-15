@@ -13,7 +13,7 @@ const createCommentList = (comments) => {
       <p class="film-details__comment-info">
         <span class="film-details__comment-author">${comments[i].author}</span>
         <span class="film-details__comment-day">${comments[i].date.format('YYYY/MM/DD hh:mm')}</span>
-        <button class="film-details__comment-delete">Delete</button>
+        <button class="film-details__comment-delete" id="${comments[i].id}">Delete</button>
       </p>
     </div>
   </li>`;
@@ -41,9 +41,25 @@ export default class CommentList extends AbstractView {
   constructor(film) {
     super();
     this._film = film;
+
+    this._deleteClickHandler = this._deleteClickHandler.bind(this);
   }
 
   getTemplate() {
     return createCommentListTemplate(this._film);
+  }
+
+  restoreHandlers() {
+    this.setDeleteClickHandler(this._callback.deleteClick);
+  }
+
+  _deleteClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.deleteClick(evt);
+  }
+
+  setDeleteClickHandler(callback) {
+    this._callback.deleteClick = callback;
+    this.getElement().querySelectorAll('.film-details__comment-delete').forEach((button) => button.addEventListener('click', this._deleteClickHandler));
   }
 }

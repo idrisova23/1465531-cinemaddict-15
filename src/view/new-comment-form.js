@@ -63,22 +63,6 @@ export default class NewCommentForm extends SmartView {
     this.setFormSubmitHandler(this._callback.formSubmit);
   }
 
-  _setInnerHandlers() {
-    this.getElement()
-      .querySelector('.film-details__emoji-list')
-      .addEventListener('click', this._newEmotionToggleHandler);
-    this.getElement()
-      .querySelector('.film-details__comment-input')
-      .addEventListener('input', this._newTextInputHandler);
-  }
-
-  _formSubmitHandler(evt) {
-    if (evt.keyCode === 13 && (evt.metaKey || evt.ctrlKey)) {
-      return;
-    }
-    this._callback.formSubmit(NewCommentForm.parseDataToFilm(this._data));
-  }
-
   _newEmotionToggleHandler(evt) {
     if (evt.target.tagName !== 'INPUT') {
       return;
@@ -94,6 +78,22 @@ export default class NewCommentForm extends SmartView {
     this.updateData({
       text: evt.target.value,
     }, true);
+  }
+
+  _setInnerHandlers() {
+    this.getElement()
+      .querySelector('.film-details__emoji-list')
+      .addEventListener('click', this._newEmotionToggleHandler);
+    this.getElement()
+      .querySelector('.film-details__comment-input')
+      .addEventListener('input', this._newTextInputHandler);
+  }
+
+  _formSubmitHandler(evt) {
+    if (evt.keyCode === 13 && (evt.metaKey || evt.ctrlKey)) {
+      return;
+    }
+    this._callback.formSubmit(NewCommentForm.parseDataToFilm(this._data));
   }
 
   setFormSubmitHandler(callback) {
