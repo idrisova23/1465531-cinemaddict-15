@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import he from 'he';
 import {nanoid} from 'nanoid';
 import SmartView from './smart.js';
 
@@ -12,7 +13,7 @@ const createNewCommentFormTemplate = (data) => {
     </div>
 
     <label class="film-details__comment-label">
-      <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${text}</textarea>
+      <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment">${he.encode(text)}</textarea>
     </label>
 
     <div class="film-details__emoji-list">
@@ -127,7 +128,7 @@ export default class NewCommentForm extends SmartView {
             emotion: data.emotion,
             date: dayjs.between('2019-06-10', '2021-03-02'),
             author: 'Author',
-            comment: data.text,
+            comment: he.encode(data.text),
           },
           ...data.comments,
         ],

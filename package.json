@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "dayjs": "1.10.6",
-    "dayjs-random": "^1.0.0"
+    "dayjs-random": "^1.0.0",
+    "he": "1.2.0"
   }
 }
