@@ -1,7 +1,7 @@
 import ProfileView from './view/profile.js';
 import FilterMenuView from './view/filter-menu.js';
 import FooterStatsView from './view/footer-stats.js';
-import {generateFilm, generateFilter, generateFooterStats} from './mock/mock.js';
+import {generateFilm, generateFooterStats} from './mock/mock.js';
 import BoardPresenter from './presenter/board.js';
 import FilmsModel from './model/films.js';
 import FilterModel from './model/filter.js';
@@ -10,7 +10,13 @@ import {render, RenderPosition} from './utils/render.js';
 export const FILM_COUNT = 18;
 
 const films = new Array(FILM_COUNT).fill(null).map(generateFilm);
-const filters = generateFilter(films);
+const filters = [
+  {
+    type: 'all',
+    name: 'ALL',
+    count: 0,
+  },
+];
 const statistics = generateFooterStats();
 
 const filmsModel = new FilmsModel();
@@ -24,7 +30,7 @@ const siteMainElement = document.querySelector('.main');
 const boardPresenter = new BoardPresenter(siteMainElement, filmsModel);
 
 render(siteHeaderElement, new ProfileView(films), RenderPosition.BEFOREEND);
-render(siteMainElement, new FilterMenuView(filters), RenderPosition.BEFOREEND);
+render(siteMainElement, new FilterMenuView(filters, 'all'), RenderPosition.BEFOREEND);
 
 boardPresenter.init();
 
