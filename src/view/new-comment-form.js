@@ -133,7 +133,7 @@ export default class NewCommentForm extends SmartView {
         ],
       },
     );
-    // console.log(data);
+
     data.emotion = 'smile';
     data.text = '';
 

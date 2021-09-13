@@ -4,6 +4,7 @@ import FooterStatsView from './view/footer-stats.js';
 import {generateFilm, generateFilter, generateFooterStats} from './mock/mock.js';
 import BoardPresenter from './presenter/board.js';
 import FilmsModel from './model/films.js';
+import FilterModel from './model/filter.js';
 import {render, RenderPosition} from './utils/render.js';
 
 export const FILM_COUNT = 18;
@@ -14,6 +15,8 @@ const statistics = generateFooterStats();
 
 const filmsModel = new FilmsModel();
 filmsModel.setFilms(films);
+
+const filterModel = new FilterModel();
 
 const siteHeaderElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
