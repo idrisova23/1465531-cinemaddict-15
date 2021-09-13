@@ -60,7 +60,6 @@ export default class Board {
   }
 
   _handleViewAction(actionType, updateType, update) {
-    // console.log({actionType, updateType, update});
     switch (actionType) {
       case UserAction.UPDATE_FILM:
         this._filmsModel.updateFilm(updateType, update);
@@ -75,7 +74,6 @@ export default class Board {
   }
 
   _handleModelEvent(updateType, data) {
-    // console.log({updateType, data});
     switch (updateType) {
       case UpdateType.PATCH:
         this._filmPresenter.get(data.id).init(data);
