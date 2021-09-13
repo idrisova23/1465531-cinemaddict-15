@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+import {nanoid} from 'nanoid';
 import SmartView from './smart.js';
 
 const createNewCommentFormTemplate = (data) => {
@@ -115,8 +117,23 @@ export default class NewCommentForm extends SmartView {
   }
 
   static parseDataToFilm(data) {
-    data = Object.assign({}, data);
-
+    data = Object.assign(
+      {},
+      data,
+      {
+        comments: [
+          ...data.comments,
+          {
+            id: nanoid(),
+            emotion: data.emotion,
+            date: dayjs.between('2019-06-10', '2021-03-02'),
+            author: 'Author',
+            comment: data.text,
+          },
+        ],
+      },
+    );
+    // console.log(data);
     data.emotion = 'smile';
     data.text = '';
 
