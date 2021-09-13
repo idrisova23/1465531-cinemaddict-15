@@ -163,7 +163,7 @@ export default class Film {
         {},
         this._film,
         {
-          isFavorite: !this._film.isFavorite,
+          isFavorites: !this._film.isFavorites,
         },
       ),
     );

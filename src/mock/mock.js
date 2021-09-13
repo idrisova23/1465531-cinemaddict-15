@@ -119,14 +119,14 @@ export const generateFilm = () => ({
   comments: new Array(getRandomInteger(0, 5)).fill(null).map(() => generateComment()),
   isWatchlist: Boolean(getRandomInteger(0, 1)),
   isHistory: Boolean(getRandomInteger(0, 1)),
-  isFavorite: Boolean(getRandomInteger(0, 1)),
+  isFavorites: Boolean(getRandomInteger(0, 1)),
 });
 
 const filmToFilterMap = {
   'All movies': (films) => films.length,
   'Watchlist': (films) => films.filter((film) => film.isWatchlist).length,
   'History': (films) => films.filter((film) => film.isHistory).length,
-  'Favorites': (films) => films.filter((film) => film.isFavorite).length,
+  'Favorites': (films) => films.filter((film) => film.isFavorites).length,
 };
 
 export const generateFilter = (films) => Object.entries(filmToFilterMap).map(

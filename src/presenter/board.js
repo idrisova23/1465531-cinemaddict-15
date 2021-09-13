@@ -22,9 +22,9 @@ export default class Board {
 
     this._sortComponent = null;
     this._showMoreButtonComponent = null;
+    this._noFilmComponent = null;
 
     this._filmListComponent = new FilmListView();
-    this._noFilmComponent = new NoFilmView();
 
     this._handleViewAction = this._handleViewAction.bind(this);
     this._handleModelEvent = this._handleModelEvent.bind(this);
@@ -123,6 +123,7 @@ export default class Board {
   }
 
   _renderNoFilms() {
+    this._noFilmComponent = new NoFilmView(this._filterType);
     render(this._boardContainer, this._noFilmComponent, RenderPosition.BEFOREEND);
   }
 
@@ -157,8 +158,11 @@ export default class Board {
     this._filmPresenter.clear();
 
     remove(this._sortComponent);
-    remove(this._noFilmComponent);
     remove(this._showMoreButtonComponent);
+
+    if (this._noFilmComponent) {
+      remove(this._noFilmComponent);
+    }
 
     if (resetRenderedFilmCount) {
       this._renderedFilmCount = FILM_COUNT_PER_STEP;
