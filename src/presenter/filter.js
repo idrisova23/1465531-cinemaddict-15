@@ -53,7 +53,7 @@ export default class Filter {
       {
         type: FilterType.ALL,
         name: 'All',
-        count: filter[FilterType.ALL](films).length,
+        count: 0,
       },
       {
         type: FilterType.WATCHLIST,

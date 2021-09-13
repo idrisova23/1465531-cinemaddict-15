@@ -22,7 +22,7 @@ const siteMainElement = document.querySelector('.main');
 
 render(siteHeaderElement, new ProfileView(films), RenderPosition.BEFOREEND);
 
-const boardPresenter = new BoardPresenter(siteMainElement, filmsModel);
+const boardPresenter = new BoardPresenter(siteMainElement, filmsModel, filterModel);
 const filterPresenter = new FilterPresenter(siteMainElement, filterModel, filmsModel);
 
 filterPresenter.init();
