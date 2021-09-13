@@ -77,6 +77,10 @@ export default class Board {
     switch (updateType) {
       case UpdateType.PATCH:
         this._filmPresenter.get(data.id).init(data);
+        if (this._filterType !== FilterType.ALL) {
+          this._clearBoard({resetRenderedFilmCount: true, resetSortType: true});
+          this._renderBoard();
+        }
         break;
       case UpdateType.MINOR:
         this._clearBoard();

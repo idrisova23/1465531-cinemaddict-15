@@ -1,3 +1,4 @@
+import he from 'he';
 import AbstractView from './abstract.js';
 
 const createCommentList = (comments) => {
@@ -9,7 +10,7 @@ const createCommentList = (comments) => {
       <img src="./images/emoji/${comments[i].emotion}.png" width="55" height="55" alt="emoji-${comments[i].emotion}">
     </span>
     <div>
-      <p class="film-details__comment-text">${comments[i].comment}</p>
+      <p class="film-details__comment-text">${he.encode(comments[i].comment)}</p>
       <p class="film-details__comment-info">
         <span class="film-details__comment-author">${comments[i].author}</span>
         <span class="film-details__comment-day">${comments[i].date.format('YYYY/MM/DD hh:mm')}</span>
