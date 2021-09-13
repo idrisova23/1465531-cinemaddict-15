@@ -122,7 +122,6 @@ export default class NewCommentForm extends SmartView {
       data,
       {
         comments: [
-          ...data.comments,
           {
             id: nanoid(),
             emotion: data.emotion,
@@ -130,6 +129,7 @@ export default class NewCommentForm extends SmartView {
             author: 'Author',
             comment: data.text,
           },
+          ...data.comments,
         ],
       },
     );

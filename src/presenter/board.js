@@ -57,7 +57,7 @@ export default class Board {
         this._filmsModel.updateFilm(updateType, update);
         break;
       case UserAction.ADD_COMMENT:
-        this._filmsModel.addComment(updateType, update);
+        this._filmsModel.updateFilm(updateType, update);
         break;
       case UserAction.DELETE_COMMENT:
         this._filmsModel.deleteComment(updateType, update);

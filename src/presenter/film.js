@@ -1,4 +1,3 @@
-import {nanoid} from 'nanoid';
 import FilmView from '../view/film.js';
 import PopupView from '../view/popup.js';
 import FilmDetailsView from '../view/film-details.js';
@@ -190,17 +189,7 @@ export default class Film {
     this._changeData(
       UserAction.ADD_COMMENT,
       UpdateType.PATCH,
-      Object.assign(
-        {},
-        this._film,
-        {
-          newComment: {
-            id: nanoid(),
-            emotion: data.emotion,
-            comment: data.text,
-          },
-        },
-      ),
+      data,
     );
   }
 }

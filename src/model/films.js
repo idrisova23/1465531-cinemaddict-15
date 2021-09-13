@@ -30,26 +30,6 @@ export default class Films extends AbstractObserver {
     this._notify(updateType, update);
   }
 
-  addComment(updateType, update) {
-    const filmIndex = this._films.findIndex((film) => film.id === update.id);
-
-    const updatedFilm = {
-      ...this._films[filmIndex],
-      comments: [
-        update.newComment,
-        ...this._films[filmIndex].comments,
-      ],
-    };
-
-    this._films = [
-      ...this._films.slice(0, filmIndex),
-      updatedFilm,
-      ...this._films.slice(filmIndex + 1),
-    ];
-
-    this._notify(updateType, updatedFilm);
-  }
-
   deleteComment(updateType, update) {
     const filmIndex = this._films.findIndex((film) => film.id === update.id);
     const commentIndex = this._films[filmIndex].comments.findIndex((comment) => comment.id === update.comment.id);
