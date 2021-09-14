@@ -43,10 +43,10 @@ export default class Board {
   destroy() {
     this._clearBoard({resetRenderedTaskCount: true, resetSortType: true});
 
-    // remove(this._filmListComponent);
+    remove(this._filmListComponent);
 
-    // this._filmsModel.removeObserver(this._handleModelEvent);
-    // this._filterModel.removeObserver(this._handleModelEvent);
+    this._filmsModel.removeObserver(this._handleModelEvent);
+    this._filterModel.removeObserver(this._handleModelEvent);
   }
 
   _getFilms() {
@@ -69,7 +69,6 @@ export default class Board {
   }
 
   _handleViewAction(actionType, updateType, update) {
-    console.log({actionType, updateType, update});
     switch (actionType) {
       case UserAction.UPDATE_FILM:
         this._filmsModel.updateFilm(updateType, update);

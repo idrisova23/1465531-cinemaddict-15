@@ -1,4 +1,69 @@
-import AbstractView from './abstract.js';
+import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
+import Chart from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import SmartView from './smart.js';
+
+dayjs.extend(isBetween);
+
+const BAR_HEIGHT = 50;
+
+const renderChart = (chart, sortedGenres)  => (new Chart(chart, {
+  plugins: [ChartDataLabels],
+  type: 'horizontalBar',
+  data: {
+    // labels: sortedGenres.map((item) => item[0]),
+    datasets: [{
+      // data: sortedGenres.map((item) => item[1]),
+      backgroundColor: '#ffe800',
+      hoverBackgroundColor: '#ffe800',
+      anchor: 'start',
+    }],
+  },
+  options: {
+    plugins: {
+      datalabels: {
+        font: {
+          size: 20,
+        },
+        color: '#ffffff',
+        anchor: 'start',
+        align: 'start',
+        offset: 40,
+      },
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          fontColor: '#ffffff',
+          padding: 100,
+          fontSize: 20,
+        },
+        gridLines: {
+          display: false,
+          drawBorder: false,
+        },
+        barThickness: BAR_HEIGHT,
+      }],
+      xAxes: [{
+        ticks: {
+          display: false,
+          beginAtZero: true,
+        },
+        gridLines: {
+          display: false,
+          drawBorder: false,
+        },
+      }],
+    },
+    legend: {
+      display: false,
+    },
+    tooltips: {
+      enabled: false,
+    },
+  },
+}));
 
 export const createStatsTemplate = () => (
   `<section class="statistic">
@@ -49,8 +114,33 @@ export const createStatsTemplate = () => (
   </section>`
 );
 
-export default class Stats extends AbstractView {
+export default class Stats extends SmartView {
+  constructor(films) {
+    super();
+
+    this._films = films;
+    // this._period = period;
+    // this._chart = null;
+
+    // this._periodChangeHandler = this._periodChangeHandler.bind(this);
+
+    // this._setChart();
+  }
+
+  removeElement() {
+    super.removeElement();
+  }
+
   getTemplate() {
-    return createStatsTemplate();
+    return createStatsTemplate(this._films);
+  }
+
+  restoreHandlers() {
+    this._setCharts();
+  }
+
+  _setCharts() {
+    // Нужно отрисовать график
+    // const chart = this.getElement().querySelector('.statistic__chart');
   }
 }
