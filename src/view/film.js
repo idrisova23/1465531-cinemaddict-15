@@ -7,7 +7,7 @@ dayjs.extend(duration);
 const SYMBOL_COUNT = 139;
 
 const createFilmTemplate = (film) => {
-  const {title, totalRating, date, runtime, genres, poster, description, comments, isWatchlist, isHistory, isFavorite} = film;
+  const {title, totalRating, date, runtime, genres, poster, description, comments, isWatchlist, isHistory, isFavorites} = film;
 
   return `<article class="film-card">
     <h3 class="film-card__title">${title}</h3>
@@ -23,7 +23,7 @@ const createFilmTemplate = (film) => {
     <div class="film-card__controls">
       <button class="film-card__controls-item film-card__controls-item--add-to-watchlist ${isWatchlist && 'film-card__controls-item--active'}" type="button">Add to watchlist</button>
       <button class="film-card__controls-item film-card__controls-item--mark-as-watched ${isHistory && 'film-card__controls-item--active'}" type="button">Mark as watched</button>
-      <button class="film-card__controls-item film-card__controls-item--favorite ${isFavorite && 'film-card__controls-item--active'}" type="button">Mark as favorite</button>
+      <button class="film-card__controls-item film-card__controls-item--favorite ${isFavorites && 'film-card__controls-item--active'}" type="button">Mark as favorite</button>
     </div>
   </article>`;
 };
@@ -65,9 +65,15 @@ export default class Film extends AbstractView {
 
   setFilmClickHandler(callback) {
     this._callback.filmClick = callback;
-    this.getElement().querySelector('.film-card__poster').addEventListener('click', this._filmClickHandler);
-    this.getElement().querySelector('.film-card__title').addEventListener('click', this._filmClickHandler);
-    this.getElement().querySelector('.film-card__comments').addEventListener('click', this._filmClickHandler);
+    this.getElement()
+      .querySelector('.film-card__poster')
+      .addEventListener('click', this._filmClickHandler);
+    this.getElement()
+      .querySelector('.film-card__title')
+      .addEventListener('click', this._filmClickHandler);
+    this.getElement()
+      .querySelector('.film-card__comments')
+      .addEventListener('click', this._filmClickHandler);
   }
 
   setWatchlistClickHandler(callback) {

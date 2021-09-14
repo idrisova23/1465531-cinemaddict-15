@@ -4,7 +4,7 @@ import FilmDetailsView from '../view/film-details.js';
 import CommentListView from '../view/comment-list.js';
 import NewCommentFormView from '../view/new-comment-form.js';
 import {RenderPosition, render, replace, remove} from '../utils/render.js';
-import {Mode} from '../utils/const.js';
+import {Mode, UserAction, UpdateType} from '../utils/const.js';
 
 export default class Film {
   constructor(filmListContainer, changeData, changeMode) {
@@ -19,6 +19,8 @@ export default class Film {
     this._handleWatchlistClick = this._handleWatchlistClick.bind(this);
     this._handleHistoryClick = this._handleHistoryClick.bind(this);
     this._handleFavoriteClick = this._handleFavoriteClick.bind(this);
+    this._handleDeleteClick = this._handleDeleteClick.bind(this);
+    this._handleFormSubmit = this._handleFormSubmit.bind(this);
 
     this._escKeyDownHandler =  this._escKeyDownHandler.bind(this);
     this._filmClickHandler = this._filmClickHandler.bind(this);
@@ -50,6 +52,9 @@ export default class Film {
     this._filmDetailsComponent.setWatchlistClickHandler(this._handleWatchlistClick);
     this._filmDetailsComponent.setHistoryClickHandler(this._handleHistoryClick);
     this._filmDetailsComponent.setFavoriteClickHandler(this._handleFavoriteClick);
+
+    this._commentListComponent.setDeleteClickHandler(this._handleDeleteClick);
+    this._newCommentComponent.setFormSubmitHandler(this._handleFormSubmit);
 
     if (prevFilmComponent === null || prevPopupComponent === null) {
       render(this._filmListContainer, this._filmComponent, RenderPosition.BEFOREEND);
@@ -124,6 +129,8 @@ export default class Film {
 
   _handleWatchlistClick() {
     this._changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
       Object.assign(
         {},
         this._film,
@@ -136,6 +143,8 @@ export default class Film {
 
   _handleHistoryClick() {
     this._changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
       Object.assign(
         {},
         this._film,
@@ -148,13 +157,39 @@ export default class Film {
 
   _handleFavoriteClick() {
     this._changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
       Object.assign(
         {},
         this._film,
         {
-          isFavorite: !this._film.isFavorite,
+          isFavorites: !this._film.isFavorites,
         },
       ),
+    );
+  }
+
+  _handleDeleteClick(evt) {
+    this._changeData(
+      UserAction.DELETE_COMMENT,
+      UpdateType.PATCH,
+      Object.assign(
+        {},
+        this._film,
+        {
+          comment: {
+            id: evt.target.id,
+          },
+        },
+      ),
+    );
+  }
+
+  _handleFormSubmit(data) {
+    this._changeData(
+      UserAction.ADD_COMMENT,
+      UpdateType.PATCH,
+      data,
     );
   }
 }
