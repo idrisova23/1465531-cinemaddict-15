@@ -60,6 +60,7 @@ export default class Board {
   }
 
   _handleViewAction(actionType, updateType, update) {
+    console.log({actionType, updateType, update});
     switch (actionType) {
       case UserAction.UPDATE_FILM:
         this._filmsModel.updateFilm(updateType, update);
@@ -77,10 +78,6 @@ export default class Board {
     switch (updateType) {
       case UpdateType.PATCH:
         this._filmPresenter.get(data.id).init(data);
-        if (this._filterType !== FilterType.ALL) {
-          this._clearBoard({resetRenderedFilmCount: true, resetSortType: true});
-          this._renderBoard();
-        }
         break;
       case UpdateType.MINOR:
         this._clearBoard();
