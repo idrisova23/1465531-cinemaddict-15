@@ -8,7 +8,7 @@ import {BAR_HEIGHT} from '../utils/const.js';
 
 dayjs.extend(isBetween);
 
-const renderGenresChart = (chart, films, dateFrom, dateTo)  => {
+const renderGenresChart = (chart, films)  => {
   const filmGenres = films.reduce((result, film) => [...result, ...film.genres.split(' ')], []);
   const uniqGenres = makeItemsUniq(filmGenres);
   const filmByGenresCounts = uniqGenres.map((genre) => countFilmsByCount(films, genre));
@@ -106,7 +106,7 @@ export const createStatsTemplate = (data) => {
     <ul class="statistic__text-list">
       <li class="statistic__text-item">
         <h4 class="statistic__item-title">You watched</h4>
-        <p class="statistic__item-text">22 <span class="statistic__item-description">movies</span></p>
+        <p class="statistic__item-text">${historyFilmCount} <span class="statistic__item-description">movies</span></p>
       </li>
       <li class="statistic__text-item">
         <h4 class="statistic__item-title">Total duration</h4>
