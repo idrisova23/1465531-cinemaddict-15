@@ -43,3 +43,5 @@ export const Genre = {
 };
 
 export const GENRES = Object.values(Genre);
+
+export const BAR_HEIGHT = 50;

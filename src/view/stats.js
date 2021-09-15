@@ -4,15 +4,16 @@ import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import SmartView from './smart.js';
 import {countHistoryFilmInDateRange, makeItemsUniq, countFilmsByCount} from '../utils/stats.js';
+import {BAR_HEIGHT} from '../utils/const.js';
 
 dayjs.extend(isBetween);
-
-const BAR_HEIGHT = 50;
 
 const renderGenresChart = (chart, films, dateFrom, dateTo)  => {
   const filmGenres = films.reduce((result, film) => [...result, ...film.genres.split(' ')], []);
   const uniqGenres = makeItemsUniq(filmGenres);
   const filmByGenresCounts = uniqGenres.map((genre) => countFilmsByCount(films, genre));
+
+  chart.height = BAR_HEIGHT * uniqGenres.length;
 
   new Chart(chart, {
     plugins: [ChartDataLabels],
@@ -49,7 +50,7 @@ const renderGenresChart = (chart, films, dateFrom, dateTo)  => {
             display: false,
             drawBorder: false,
           },
-          barThickness: 6,
+          barThickness: 24,
         }],
         xAxes: [{
           ticks: {
