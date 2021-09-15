@@ -128,7 +128,7 @@ export default class NewCommentForm extends SmartView {
             emotion: data.emotion,
             date: dayjs.between('2019-06-10', '2021-03-02'),
             author: 'Author',
-            comment: he.encode(data.text),
+            comment: data.text,
           },
           ...data.comments,
         ],

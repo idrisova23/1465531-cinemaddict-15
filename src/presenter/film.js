@@ -44,14 +44,14 @@ export default class Film {
     this._commentListComponent.getElement().appendChild(this._newCommentComponent.getElement());
 
     this._filmComponent.setFilmClickHandler(this._filmClickHandler);
-    this._filmComponent.setWatchlistClickHandler(this._handleWatchlistClick);
-    this._filmComponent.setHistoryClickHandler(this._handleHistoryClick);
-    this._filmComponent.setFavoriteClickHandler(this._handleFavoriteClick);
+    this._filmComponent.setWatchlistClickHandler(() => this._handleWatchlistClick(UpdateType.MINOR));
+    this._filmComponent.setHistoryClickHandler(() => this._handleHistoryClick(UpdateType.MINOR));
+    this._filmComponent.setFavoriteClickHandler(() => this._handleFavoriteClick(UpdateType.MINOR));
 
     this._filmDetailsComponent.setCloseClickHandler(this._closeClickHandler);
-    this._filmDetailsComponent.setWatchlistClickHandler(this._handleWatchlistClick);
-    this._filmDetailsComponent.setHistoryClickHandler(this._handleHistoryClick);
-    this._filmDetailsComponent.setFavoriteClickHandler(this._handleFavoriteClick);
+    this._filmDetailsComponent.setWatchlistClickHandler(() => this._handleWatchlistClick(UpdateType.PATCH));
+    this._filmDetailsComponent.setHistoryClickHandler(() => this._handleHistoryClick(UpdateType.PATCH));
+    this._filmDetailsComponent.setFavoriteClickHandler(() => this._handleFavoriteClick(UpdateType.PATCH));
 
     this._commentListComponent.setDeleteClickHandler(this._handleDeleteClick);
     this._newCommentComponent.setFormSubmitHandler(this._handleFormSubmit);
@@ -127,10 +127,10 @@ export default class Film {
     this._removeHideOverflow();
   }
 
-  _handleWatchlistClick() {
+  _handleWatchlistClick(updateType) {
     this._changeData(
       UserAction.UPDATE_FILM,
-      UpdateType.PATCH,
+      updateType,
       Object.assign(
         {},
         this._film,
@@ -141,10 +141,10 @@ export default class Film {
     );
   }
 
-  _handleHistoryClick() {
+  _handleHistoryClick(updateType) {
     this._changeData(
       UserAction.UPDATE_FILM,
-      UpdateType.PATCH,
+      updateType,
       Object.assign(
         {},
         this._film,
@@ -155,10 +155,10 @@ export default class Film {
     );
   }
 
-  _handleFavoriteClick() {
+  _handleFavoriteClick(updateType) {
     this._changeData(
       UserAction.UPDATE_FILM,
-      UpdateType.PATCH,
+      updateType,
       Object.assign(
         {},
         this._film,
