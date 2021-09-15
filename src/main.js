@@ -1,4 +1,5 @@
 import ProfileView from './view/profile.js';
+import MainNavView from './view/main-nav.js';
 import StatsView from './view/stats.js';
 import FooterStatsView from './view/footer-stats.js';
 import {generateFilm, generateFooterStats} from './mock/mock.js';
@@ -7,7 +8,7 @@ import FilterPresenter from './presenter/filter.js';
 import FilmsModel from './model/films.js';
 import FilterModel from './model/filter.js';
 import {MenuItem} from './utils/const.js';
-import {render, RenderPosition} from './utils/render.js';
+import {render, remove, RenderPosition} from './utils/render.js';
 
 export const FILM_COUNT = 18;
 
@@ -21,31 +22,34 @@ const filterModel = new FilterModel();
 
 const siteHeaderElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
+const siteMenuComponent = new MainNavView();
 
 render(siteHeaderElement, new ProfileView(films), RenderPosition.BEFOREEND);
+render(siteMainElement, siteMenuComponent, RenderPosition.BEFOREEND);
 
 const boardPresenter = new BoardPresenter(siteMainElement, filmsModel, filterModel);
-const filterPresenter = new FilterPresenter(siteMainElement, filterModel, filmsModel);
+const filterPresenter = new FilterPresenter(siteMenuComponent, filterModel, filmsModel);
+
+let statisticsComponent = null;
 
 const handleSiteMenuClick = (menuItem) => {
   switch (menuItem) {
     case MenuItem.FILMS:
       boardPresenter.init();
-      // Скрыть статистику
+      remove(statisticsComponent);
       break;
     case MenuItem.STATS:
       boardPresenter.destroy();
-      // Показать статистику
+      statisticsComponent = new StatsView(filmsModel.getFilms());
+      render(siteMainElement, statisticsComponent, RenderPosition.BEFOREEND);
       break;
   }
 };
 
-// siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
+siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
 
 filterPresenter.init();
-// boardPresenter.init();
-
-render(siteMainElement, new StatsView(filmsModel.getFilms()), RenderPosition.BEFOREEND);
+boardPresenter.init();
 
 const footerStatistics = document.querySelector('.footer__statistics');
 

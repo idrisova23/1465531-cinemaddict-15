@@ -3,70 +3,80 @@ import isBetween from 'dayjs/plugin/isBetween';
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import SmartView from './smart.js';
+import {countHistoryFilmInDateRange, makeItemsUniq, countFilmsByCount} from '../utils/stats.js';
 
 dayjs.extend(isBetween);
 
 const BAR_HEIGHT = 50;
 
-const renderChart = (chart, sortedGenres)  => (new Chart(chart, {
-  plugins: [ChartDataLabels],
-  type: 'horizontalBar',
-  data: {
-    // labels: sortedGenres.map((item) => item[0]),
-    datasets: [{
-      // data: sortedGenres.map((item) => item[1]),
-      backgroundColor: '#ffe800',
-      hoverBackgroundColor: '#ffe800',
-      anchor: 'start',
-    }],
-  },
-  options: {
-    plugins: {
-      datalabels: {
-        font: {
-          size: 20,
-        },
-        color: '#ffffff',
+const renderGenresChart = (chart, films, dateFrom, dateTo)  => {
+  const filmGenres = films.reduce((result, film) => [...result, ...film.genres.split(' ')], []);
+  const uniqGenres = makeItemsUniq(filmGenres);
+  const filmByGenresCounts = uniqGenres.map((genre) => countFilmsByCount(films, genre));
+
+  new Chart(chart, {
+    plugins: [ChartDataLabels],
+    type: 'horizontalBar',
+    data: {
+      labels: uniqGenres,
+      datasets: [{
+        data: filmByGenresCounts,
+        backgroundColor: '#ffe800',
+        hoverBackgroundColor: '#ffe800',
         anchor: 'start',
-        align: 'start',
-        offset: 40,
+      }],
+    },
+    options: {
+      plugins: {
+        datalabels: {
+          font: {
+            size: 20,
+          },
+          color: '#ffffff',
+          anchor: 'start',
+          align: 'start',
+          offset: 40,
+        },
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            fontColor: '#ffffff',
+            padding: 100,
+            fontSize: 20,
+          },
+          gridLines: {
+            display: false,
+            drawBorder: false,
+          },
+          barThickness: 6,
+        }],
+        xAxes: [{
+          ticks: {
+            display: false,
+            beginAtZero: true,
+          },
+          gridLines: {
+            display: false,
+            drawBorder: false,
+          },
+        }],
+      },
+      legend: {
+        display: false,
+      },
+      tooltips: {
+        enabled: false,
       },
     },
-    scales: {
-      yAxes: [{
-        ticks: {
-          fontColor: '#ffffff',
-          padding: 100,
-          fontSize: 20,
-        },
-        gridLines: {
-          display: false,
-          drawBorder: false,
-        },
-        barThickness: BAR_HEIGHT,
-      }],
-      xAxes: [{
-        ticks: {
-          display: false,
-          beginAtZero: true,
-        },
-        gridLines: {
-          display: false,
-          drawBorder: false,
-        },
-      }],
-    },
-    legend: {
-      display: false,
-    },
-    tooltips: {
-      enabled: false,
-    },
-  },
-}));
+  });
+};
 
-export const createStatsTemplate = () => (
-  `<section class="statistic">
+export const createStatsTemplate = (data) => {
+  const {films, dateFrom, dateTo} = data;
+  const historyFilmCount = countHistoryFilmInDateRange(films, dateFrom, dateTo);
+
+  return `<section class="statistic">
     <p class="statistic__rank">
       Your rank
       <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
@@ -111,36 +121,65 @@ export const createStatsTemplate = () => (
       <canvas class="statistic__chart" width="1000"></canvas>
     </div>
 
-  </section>`
-);
+  </section>`;
+};
 
 export default class Stats extends SmartView {
   constructor(films) {
     super();
 
-    this._films = films;
-    // this._period = period;
-    // this._chart = null;
+    this._data = {
+      films,
+      // По условиям техзадания по умолчанию интервал - неделя от текущей даты
+      dateFrom: (() => {
+        const daysToFullWeek = 6;
+        return dayjs().subtract(daysToFullWeek, 'day').toDate();
+      })(),
+      dateTo: dayjs().toDate(),
+    };
 
-    // this._periodChangeHandler = this._periodChangeHandler.bind(this);
+    this._genresChart = null;
 
-    // this._setChart();
+    this._dateChangeHandler = this._dateChangeHandler.bind(this);
+
+    this._setCharts();
   }
 
   removeElement() {
     super.removeElement();
+
+    if (this._genresChart !== null) {
+      this._genresChart = null;
+    }
   }
 
   getTemplate() {
-    return createStatsTemplate(this._films);
+    return createStatsTemplate(this._data);
   }
 
   restoreHandlers() {
     this._setCharts();
   }
 
+  _dateChangeHandler([dateFrom, dateTo]) {
+    if (!dateFrom || !dateTo) {
+      return;
+    }
+
+    this.updateData({
+      dateFrom,
+      dateTo,
+    });
+  }
+
   _setCharts() {
-    // Нужно отрисовать график
-    // const chart = this.getElement().querySelector('.statistic__chart');
+    if (this._genresChart !== null) {
+      this._genresChart = null;
+    }
+
+    const {films, dateFrom, dateTo} = this._data;
+    const statisticCtx = this.getElement().querySelector('.statistic__chart');
+
+    this._daysChart = renderGenresChart(statisticCtx, films, dateFrom, dateTo);
   }
 }
